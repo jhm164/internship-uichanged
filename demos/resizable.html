@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Clayfy: Demos resizable</title>
+        <meta name="description" content="Clayfy JQuery plugin. Make elements resizable with less effort.">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="../libs/jquery.js"></script>
+        <script src="../dist/clayfy.min.js"></script>
+        <link rel="stylesheet" href="../dist/clayfy.min.css" type="text/css">
+        <style>
+            h3{
+                margin: 30px 0 0 0;
+            }
+            p{
+                margin: 0
+            }
+            pre{
+                margin: 0;
+                color : #555;
+            }
+            .rect {
+                height: 100px;
+                width : 150px;
+                background : #ccc;
+                position: absolute;
+                top: 10px;
+                left: 10px;
+
+            }
+            .container{
+                margin-bottom: 20px;
+                height: 300px;
+               width: 300px;
+                position: relative;
+            }
+            
+            
+            
+        </style>
+            
+    </head>
+    <body>
+        <h1>Demos resizable</h1>
+        
+     
+      
+        
+        <!--Demo start-->
+        <div class="demo">
+         
+        <div class="container" id="container-6" style="height: 300px;width: 300px; border: 2px solid #444;background-image: url('cart.png'); ">
+          <div id="displayarea" style="height: 200px;width: 200px; border: 2px solid #444;top:30;left: 40" >
+            <img src="g3.png" id="demo-6" class="rect" >
+            </div>
+        </div>
+
+
+        <script>
+            var $demo6 = $('#demo-6');
+            $demo6.clayfy({
+                type : 'resizable',
+                container : '#displayarea',
+                minSize : [100,50],
+                maxSize : [190,190],
+                className : 'custom-handlers',
+                callbacks : {
+                    resize : function(){
+                     
+                   var p=$demo6.position();
+                      console.log('inner: ' + $demo6.width() +'  '+p.top+'  '+p.left);
+//document.getElementById("here").innerHTML=$demo6.width()*20 ;
+
+                    }
+
+                    
+                },
+                drag:function(){
+                    var p=$demo6.position();
+                        console.log('inner: ' + $demo6.width() +'  '+p.top+'  '+p.left);
+                //        document.getElementById("here").innerHTML=$demo6.width() ;
+                    }
+            });
+           
+        </script>
+        </div>
+     <h5 id="here"></h5>
+        
+    </body>
+</html>
