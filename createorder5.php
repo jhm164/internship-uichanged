@@ -16,6 +16,7 @@ include 'connection.php';
 <html lang="en">
  
 <head>
+
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=yes">
@@ -30,34 +31,38 @@ include 'connection.php';
     <link rel="stylesheet" href="assets/vendor/charts/c3charts/c3.css">
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
-        
- <script src="libs/jquery.js"></script>
-        <script src="dist/clayfy.min.js"></script>
-        <link rel="stylesheet" href="dist/clayfy.min.css" type="text/css">
-
-
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-    <title>Vendorboat</title>
-
 <style type="text/css">
    #logo{
+
                 height: 100px;
                 width : 150px;
-                background : #ccc;
-                position: absolute;
+                background : red;
+              
                 top: 10px;
                 left: 10px;
 
+
             }
             #main{
+                  background-size: cover;
                 margin-bottom: 20px;
                 height: 300px;
                width: 300px;
-                position: relative;
+               position: relative;
+              
             }
             
+
+
+
+#displayarea{
+    position: absolute;
+}
+
+
 #open-preview{
     background-size: cover;
 }
@@ -115,6 +120,11 @@ include 'connection.php';
 
  $(document).ready(function(){
 
+
+
+
+
+
               var v=$("#main").position();
               var marginl=$("#main").css("margin-left");
               var margint=$("#main").css("margin-top");
@@ -125,15 +135,30 @@ include 'connection.php';
               var width1=$("#logo").outerWidth();
               var height1=$("#logo").outerHeight();
               var totalp;
+              var dish='';
+              var disw='';
+var dx1='';var dy1='';
+
+
+
+
+
 
 
  $("body").on("click",".logoc", function(){
     logoid1=$(this).attr('id');
+
+
 var g= $(this).attr('src');
+
+
+//alert(dish+' '+disw);
+
 $('#logo').attr('src',g);
   });
 
-            
+            $('#hideid').hide();
+
    $("body").on("click","#searchbutton", function(){
   var id=$("#search").val();
 $('#myicons').load('mylogo.php?id='+id);
@@ -145,7 +170,7 @@ $('#myicons').load('mylogo.php?id='+id);
                 var cat=$(this).val();
                 //alert(cat);
                 $('#'+id).attr('onkeyup',cat);
-                $(location).attr('href', 'createorder4.php?category='+cat);
+                $(location).attr('href', 'createorder5.php?category='+cat);
                 //$('#'+id).attr('onkeyup',cat);
                 $('#bb').text(cat);
                 });
@@ -168,22 +193,31 @@ zone=val.zone;
 pmodel=val.model;
 
 mainproductprice=val.price;
-$('#main').attr('src',val.imagepath);
 
+$('#main').css('background-image','url('+val.imagepath+')');
 $('#open-preview').css('background-image','url('+val.imagepath+')');
 $('.img2').attr('src',val.img2);
 $('.img3').attr('src',val.img3);
+dish=val.lheight;
+disw=val.lwidth;
+dx1=val.x1;
+dy1=val.y1;
+
+
+
+
+
   });
 });
 
 
-
-  
+ // alert(dish+' '+val.lheight);
 $('#main').css('background-image','url('+val.imagepath+')');
 $('.img2').attr('src',val.img2);
 $('.img3').attr('src',val.img3);
 $('#displayarea').css('height',val.lheight);
 $('#displayarea').css('width',val.lwidth);
+
 
 
 $('#logo').css('height',val.lheight);
@@ -230,7 +264,25 @@ $('.selection1').show(500);
 $('#open-preview').click(function(){
   //  alert($("#hideid").text());
  var id1=$("#hideid").text();
-//alert(id1);
+ //var h=$('#displayarea').height();
+//var w=$('#displayarea').width();
+/*
+$('#displayarea').css('height',dish+'px');
+$('#displayarea').css('width',disw+'px');
+$('#displayarea').css('margin-top',dy1);
+$('#displayarea').css('margin-left',dx1);
+*/
+
+$('#displayarea').css('height',dish);
+$('#displayarea').css('width',disw);
+$("#displayarea").css("margin-top",dy1+'px');
+$("#displayarea").css("margin-left",dx1+'px');
+
+$('#logo').css('height',dish-10);
+
+$('#logo').css('width',disw-10);
+
+alert(dish);
 $('#myicons').load('mylogo.php?id1='+id1);
 $('.selection12').show(500);
 });
@@ -310,7 +362,7 @@ $('.kk').hide();
                                 <div id="submenu-2" class="collapse submenu" style="">
                                     <ul class="nav flex-column">
                                         <li class="nav-item">
-                                            <a class="nav-link" href="pages/createorder4.php">Create New<span class="badge badge-secondary">New</span></a>
+                                            <a class="nav-link" href="pages/createorder5.php">Create New<span class="badge badge-secondary">New</span></a>
                                         </li>
                                        
                                         <li class="nav-item">
@@ -481,11 +533,6 @@ $('.kk').hide();
                             </div>
                              <div class="col-6">
 
-        <div  id="main" style="height: 300px;width: 300px; border: 2px solid #444;background-image: url('cart.png'); ">
-          <div id="displayarea" style="height: 200px;width: 200px; border: 2px solid #444;top:30;left: 40" >
-            <img src="g3.png" id="logo"  >
-            </div>
-        </div>
  <p id="hideid"><?php echo $_SESSION['id']; ?></p>
 
                                                      <div class="card" style="align-self: center;padding: 2%;">
@@ -504,7 +551,13 @@ $('.kk').hide();
                                <tr><td>     
           <h4 style="color: #1c6704;">Preview</h4>
 
-      
+   
+<div id="main" style="background-color:#c7c7c7;"> 
+<div id="displayarea"  style="border:1px dotted gray;">
+<img id="logo"  style=""  />
+</div>
+</div>
+
         
                      <br><br>
                           <img  id="img2" class="img2 mainc" style="background-color:#c7c7c7; width: 70px;  height: 70px;"  >
@@ -553,16 +606,7 @@ $('.kk').hide();
 
 
 
-
-                                       <center>
-
-<div id="main" style="background-color:#c7c7c7;"> 
-<div id="displayarea"  style="border:1px dotted gray;">
-<img id="logo"  style=""  />
-</div>
-</div>
-</center>
-                                 
+              
                                        
                                   
                                 </div>
@@ -598,33 +642,7 @@ $('.kk').hide();
     <script src="assets/vendor/charts/c3charts/d3-5.4.0.min.js"></script>
     <script src="assets/vendor/charts/c3charts/C3chartjs.js"></script>
     <script src="assets/libs/js/dashboard-ecommerce.js"></script>
-    <script>
-            var $demo6 = $('#logo');
-            $demo6.clayfy({
-                type : 'resizable',
-                container : '#displayarea',
-                minSize : [100,50],
-                maxSize : [190,190],
-                className : 'custom-handlers',
-                callbacks : {
-                    resize : function(){
-                     
-                   var p=$demo6.position();
-                      console.log('inner: ' + $demo6.width() +'  '+p.top+'  '+p.left);
-//document.getElementById("here").innerHTML=$demo6.width()*20 ;
-
-                    }
-
-                    
-                },
-                drag:function(){
-                    var p=$demo6.position();
-                        console.log('inner: ' + $demo6.width() +'  '+p.top+'  '+p.left);
-                //        document.getElementById("here").innerHTML=$demo6.width() ;
-                    }
-            });
-           
-        </script>
+   
 </body>
  
 </html>
@@ -643,40 +661,3 @@ header('Location:login.html');
 
 } 
 ?>
-
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-  <meta charset="utf-8">
-  <title>Демо. Простое всплывающее окно на Transition и jQuery | Блог Никиты Лебедева</title>
-
-  <link rel="stylesheet" href="css/jquery.popup.css" type="text/css">
-
-  <script type="text/javascript" src="js/jquery-2.0.3.min.js"></script>
-  <script type="text/javascript" src="js/jquery.popup.js"></script>
-
-  <script type="text/javascript">
-    $(function() {
-      $(".js__p_start, .js__p_another_start").simplePopup();
-    });
-  </script>
-</head>
-<body>
-  <div class="p_anch">
-    <a href="#" class="lal js__p_start">click</a>, чтобы вызвать всплывающее окно
-  </div>
-
- 
-  <div class="p_body js__p_body js__fadeout"></div>
-
-  <div class="popup js__popup js__slide_top">
-    <a href="#" class="p_close js__p_close" title="Закрыть">
-      <span></span><span></span>
-    </a>
-    <div class="p_content">Всплывающее окно</div>
-  </div>
-
-  
-
-</body>
-</html>
