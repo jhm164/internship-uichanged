@@ -296,7 +296,12 @@ $benifit=$sellp-$totalprice;
                     <!-- end pageheader  -->
                     <!-- ============================================================== -->
                     <div class="ecommerce-widget">
-<div id="piechart" style="width:100%; height:400px;"></div>
+<div class="card">
+                                <h5 class="card-header">Accounts Payable Age</h5>
+                                <div class="card-body">
+                                    <div id="piechart" style="height: 300px;"></div>
+                                </div>
+                            </div>
                         <div class="row">
 
 

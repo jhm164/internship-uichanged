@@ -55,7 +55,30 @@ include 'connection.php';
                position: relative;
               
             }
+
+            #errmsg1
+{
+color: red;
+}
+#errmsg
+{
+color: red;
+}
             
+            #wrapper
+{
+ text-align:center;
+ margin:0 auto;
+ padding:0px;
+
+}
+#drop-area
+{
+ 
+
+ background-color:white;
+ 
+}      
 
 
 
@@ -75,6 +98,46 @@ include 'connection.php';
 
 
 </style>
+
+<script>
+
+function _(el){
+  return document.getElementById(el);
+}
+function uploadFile(){
+ var jjj=document.getElementById('sqa').value;
+ alert(jjj);
+ console.log(jjj);
+  var file = _("file1").files[0];
+  // alert(file.name+" | "+file.size+" | "+file.type);
+  var formdata = new FormData();
+  formdata.append("file1", file);
+  var ajax = new XMLHttpRequest();
+  ajax.upload.addEventListener("progress", progressHandler, false);
+  ajax.addEventListener("load", completeHandler, false);
+  ajax.addEventListener("error", errorHandler, false);
+  ajax.addEventListener("abort", abortHandler, false);
+  ajax.open("GET", "file_upload_parser.php?file1="+file+"&sqa="+jjj);
+  ajax.send(formdata);
+}
+function progressHandler(event){
+  _("loaded_n_total").innerHTML = "Uploaded "+event.loaded+" bytes of "+event.total;
+  var percent = (event.loaded / event.total) * 100;
+  _("progressBar").value = Math.round(percent);
+  _("status").innerHTML = Math.round(percent)+"% uploaded... please wait";
+}
+function completeHandler(event){
+  _("status").innerHTML = event.target.responseText;
+  _("progressBar").value = 0;
+}
+function errorHandler(event){
+  _("status").innerHTML = "Upload Failed";
+}
+function abortHandler(event){
+  _("status").innerHTML = "Upload Aborted";
+}
+</script>
+
   <style>
             h3{
                 margin: 30px 0 0 0;
@@ -209,7 +272,7 @@ $('#myicons').load('mylogo.php?id='+id);
                 var cat=$(this).val();
                 //alert(cat);
                 $('#'+id).attr('onkeyup',cat);
-                $(location).attr('href', 'createorder5.php?category='+cat);
+                $(location).attr('href', 'createorder7.php?category='+cat);
                 //$('#'+id).attr('onkeyup',cat);
                 $('#bb').text(cat);
                 });
@@ -261,6 +324,23 @@ $('#displayarea').css('height',val.lheight);
 $('#displayarea').css('width',val.lwidth);
 
 
+$("#quantity").keypress(function (e) {
+     //if the letter is not digit then display error and don't type anything
+     if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+        //display error message
+        $("#errmsg").html("Digits Only").show().fadeOut("slow");
+               return false;
+    }
+   });
+    $("#sellp").keypress(function (e) {
+     //if the letter is not digit then display error and don't type anything
+     if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+        //display error message
+        $("#errmsg1").html("Digits Only").show().fadeOut("slow");
+               return false;
+    }
+   });
+   
 
 $('#logo').css('height',val.lheight);
 $("#displayarea").css("margin-top",val.y1);
@@ -404,7 +484,7 @@ $('.kk').hide();
                                 <div id="submenu-2" class="collapse submenu" style="">
                                     <ul class="nav flex-column">
                                         <li class="nav-item">
-                                            <a class="nav-link" href="pages/createorder5.php">Create New<span class="badge badge-secondary">New</span></a>
+                                            <a class="nav-link" href="pages/createorder7.php">Create New<span class="badge badge-secondary">New</span></a>
                                         </li>
                                        
                                         <li class="nav-item">
@@ -447,227 +527,16 @@ $('.kk').hide();
         <div class="dashboard-wrapper">
             <div class="dashboard-ecommerce">
                 <div class="container-fluid dashboard-content ">
-                    <!-- ============================================================== -->
-                    <!-- pageheader  -->
-                    <!-- ============================================================== -->
-                    <div class="row">
-                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                            <div class="page-header">
-                                <center><h2 class="pageheader-title">Orders</h2></center>
-                               
-                                <div class="page-breadcrumb">
-                                    <nav aria-label="breadcrumb">
-                                        <ol class="breadcrumb">
-                                          
-                                            <li class="breadcrumb-item active" aria-current="page"> Dashboard </li>
-                                        </ol>
-                                    </nav>
-                                </div>
-                            </div>
+                   
+       
                         </div>
-                    </div>
-                    <!-- ============================================================== -->
-                    <!-- end pageheader  -->
-                    <!-- ============================================================== -->
-                    <div class="ecommerce-widget">
-
-                        <div class="row">
-
-
-                            <div class="col-6">
-                                <div class="card" style="padding:5%;">
-                                    
-                                        <h5 class="text-muted">Create product</h5>
-                                        
-                                         <select class="form-control" name="category" id="category" >
-  
-                                                        <?php
-                                                         if (isset($_GET['category']))
-                                                          { 
-                                                            ?>
-                                                                <option value="<?php  echo $_GET['category']; ?>"><?php  echo $_GET['category']; ?></option>
-                                                            <?php
-                                                         
-                                                          } 
-                                                          ?>
-                                                           <option>--select--</option>
-
-                                                               <?php 
-                                                        $sql="select * from category";
-                                                        $arr=array();
-                                                          $result=mysqli_query($conn,$sql);
-                                                        while ($row=mysqli_fetch_assoc($result)) {
-
-                                                               ?>
-                                                              <option value="<?php echo $row['category'] ;?>"><?php echo $row['category'] ;?></option>
-                                                            <?php } ?>
-                                                           
-                                                            </select>
-                                             
-
-                                    <?php
-                                    if (isset($_GET['category'])) {
-
-                                    $cat=$_GET['category'];
-                                    $sql="select * from category where category='$cat'";
-                                      $result=mysqli_query($conn,$sql);
-                                    while ($row=mysqli_fetch_assoc($result)) {
-                                    for ($i=1; $i <3 ; $i++) { 
-                                      if ($row['c'.$i]!='imagepath'&&$row['c'.$i]!='zone'&&$row['c'.$i]!='price') {
-                                       $arr[$i]=$row['c'.$i];
-                                     }
-                                    }
-
-                                    }
-                                    ?>
-                                        
-                                              <?php
-                                    for($j=1;$j<3;$j++){
-
-
-                                    if($row['c'.$j]!='N/A'){
-                                    //echo $arr[$j];
-                                    ?>
-
-                                    <?php
-                                    //if ($arr[$j]!='imagepath'&&$arr[$j]!='zone'&&$arr[$j]!='price') {
-                                       
-                                      // print_r($arr);
-                                     ?>
-   <span id="<?php echo 'm'.$j;?>" class="kk"><?php echo $arr[$j];?></span>
-                                       <h5><?php echo $arr[$j];?><span style="color:red;font-size: 20px;">*</span></h5>
-                                    
-                                     <select class="form-control" id="<?php echo 'i'.$j;?>">
-
-                                     <?php
-                                  
-                                     $sql="SELECT DISTINCT $arr[$j] FROM $cat ";
-                               
-                                      $result=mysqli_query($conn,$sql);
-                                    while ($row=mysqli_fetch_assoc($result)) {
-                                    ?>  <option>
-                                    <?php echo  $row[$arr[$j]]; ?>
-                                    </option>
-                                    <?php
-                                    }
-                                    ?>
-
-                                    </select>
-
-                                    <?php
-                                    //} 
-
-                                    }
-                                    }
-
-                                    }
-                                              ?>
-        
-
-
-    <div style="width: 100%;margin-top: 10px;" id="grab"  class="form-control btn btn-primary"><b style="color:white;">Load</b></div>
-  
-
-
-                                       
-                                  
-                                </div>
-                            </div>
-                             <div class="col-6">
-
- <p id="hideid"><?php echo $_SESSION['id']; ?></p>
-
-                                                     <div class="card" style="align-self: center;padding: 2%;">
-
-
-                                   <!-- Large modal -->
-                                   <center>
-<div  id="open-preview" data-toggle="modal" data-target=".bd-example-modal-lg" style="height: 100px;width: 100px;background-color: gray;"></div>
-
-<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content" style="padding: 2%;">
-     
-                       <table>     
-                       <tbody>    
-                               <tr><td>     
-          <h4 style="color: #1c6704;">Preview</h4>
-
-   
-<div id="main" style="background-color:#c7c7c7;"> 
-<div id="displayarea"  style="border:1px dotted gray;">
-<img id="logo"  style=""  />
-</div>
-</div>
-
-                          <img  id="img2" class="img2 mainc" style="background-color:#c7c7c7; width: 70px;  height: 70px;"  >
-                                <img  id="img3" class="img3 mainc" style="background-color:#c7c7c7;width: 70px;  height: 70px;"   >
-                               
-                      </td> <td ><center>
-                          <div class="row">
-                              <div class="col-6">
-                              <h5>Height :<span style="font-weight:bold;" id="hl"></span></h5>
-                              </div>
-                              <div class="col-6">
-                              <h5>Width :<span style="font-weight:bold;" id="wl"></span></h5>
-                              </div>
-                          </div>
-                         <h5>Logo Size </h5>
-
-                                </center>
-                               </td></tr>  
-                      <tr><td>
-                     <input type="text" name="" id="search" placeholder="search by sqa number"> <input type="button" value="Search" name="" id="searchbutton">
-
-                  <div  id="myicons">    
-                  </div>
-                      </td></tr>
-                      </tbody>    
-                      </table>   
-              
-    </div>
+                       
   </div>
-</div>
-
-                                       
-                                  
-                                </div>
-
-                            </div>
-                         
-
-                         <!-- Large modal -->
+  </div>
 
 
-                        </div>
-                       
+                   
 
-
-
-
-
-
-
-
-
-     <div class="row">
-
- <div class="col-6">
-          <div class="card" style="align-self: center;padding: 2%;">              
-                                       
-
-
-
-              
-                                       
-                                  
-                                </div>
-                            </div>
-
-
-                         
-                        </div>
-                       
 
 
     <!-- ============================================================== -->
@@ -694,21 +563,21 @@ $('.kk').hide();
     <script src="assets/vendor/charts/c3charts/d3-5.4.0.min.js"></script>
     <script src="assets/vendor/charts/c3charts/C3chartjs.js"></script>
     <script src="assets/libs/js/dashboard-ecommerce.js"></script>
-   
+
 </body>
  
 </html>
 <?php
 }else{
  echo "<h1 class='alert alert-danger'>Please login</h1>";
-    header('Location:login.html');
+    header('Location:index.html');
 }
 
 
  if (isset($_GET['logout'])){
 if($_GET['logout']=='true'){
     session_destroy();
-header('Location:login.html');
+header('Location:index.html');
 }
 
 } 
