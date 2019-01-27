@@ -234,10 +234,10 @@ $benifit=$sellp-$totalprice;
                                         </li>
                                        
                                         <li class="nav-item">
-                                            <a class="nav-link" href="pages/carousel.html">My Orders</a>
+                                            <a class="nav-link" href="myorders.php">My Orders</a>
                                         </li>
                                          <li class="nav-item">
-                                            <a class="nav-link" href="pages/general.html">Track Order</a>
+                                            <a class="nav-link" href="trackorder.pph">Track Order</a>
                                         </li>
                                     
                                     </ul>
@@ -416,14 +416,14 @@ $benifit=$sellp-$totalprice;
 <?php
 }else{
  echo "<h1 class='alert alert-danger'>Please login</h1>";
-    header('Location:login.html');
+    header('Location:index.html');
 }
 
 
  if (isset($_GET['logout'])){
 if($_GET['logout']=='true'){
     session_destroy();
-header('Location:login.html');
+header('Location:index.html');
 }
 
 } 

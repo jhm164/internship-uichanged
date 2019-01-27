@@ -17,26 +17,7 @@ include 'connection.php';
  
 <head>
 
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=yes">
-    
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="assets/vendor/bootstrap/css/bootstrap.min.css">
-    <link href="assets/vendor/fonts/circular-std/style.css" rel="stylesheet">
-    <link rel="stylesheet" href="assets/libs/css/style.css">
-    <link rel="stylesheet" href="assets/vendor/fonts/fontawesome/css/fontawesome-all.css">
-    <link rel="stylesheet" href="assets/vendor/charts/chartist-bundle/chartist.css">
-    <link rel="stylesheet" href="assets/vendor/charts/morris-bundle/morris.css">
-    <link rel="stylesheet" href="assets/vendor/fonts/material-design-iconic-font/css/materialdesignicons.min.css">
-    <link rel="stylesheet" href="assets/vendor/charts/c3charts/c3.css">
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-
-    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-  <link rel="stylesheet" type="text/css" 
-	href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.1/themes/base/jquery-ui.css"/>
-    
+ /
 <style type="text/css">
    #logo{
 
@@ -178,14 +159,33 @@ function abortHandler(event){
                 var logoid1=0;
                 var mainid1=null;
                 var zone=null;
-                var selectedcustomer=0;
-                var mainproductprice=0;
+                var selectedcustomer='';
+                var mainproductprice=null;
                 var zonep=0;
                 var  paymentmode=null;
-
+var posl='';
+var post='';
  $(document).ready(function(){
 
+    $('.selection1').hide();
+      $('.selection2').hide();
+      $('.selection3').hide();
+      $('.selection4').hide();
+      $('.selection5').hide();
+      $('.selection6').hide();
+        $('.selection12').hide();
+           var quantity='';
+$('.kk').hide();
+  var category='';
+  var brand='';
+  var model='';
+      $('#mycustomer').show();
 
+
+$('#customerd').hide();
+
+$('#uploadarea').hide();
+$('#manual').hide();
 
 		$('#logo')
 	.resizable(
@@ -198,30 +198,44 @@ function abortHandler(event){
     var p=ui.size;
 $('#hl').text($(this).height);
 $('#wl').text(p.width);
+$('#logocharges').text(p.height*3);
+$('#logocharges1').text(p.height*3);
     },
     resize: function(e, ui) {
         var p=ui.size;
 $('#hl').text(p.height);
 $('#wl').text(p.width);
+$('#logocharges').text(p.height*3);
+$('#logocharges1').text(p.height*3);
     },
     stop: function(e, ui) {
         var p=ui.size;
 $('#hl').text(p.height);
 $('#wl').text(p.width);
+$('#logocharges').text(p.height*3);
+$('#logocharges1').text(p.height*3);
         //alert('resizing stopped');
     },
     containment:"#displayarea"
 
 }).parent().draggable({
 		start: function(e, ui) {
+            var p=ui.position;
+            post=p.top;
+            posl=p.left;
           
 		},
-		resize: function(e, ui) {
-		
+		drag: function(e, ui) {
+            var p=ui.position;
+            post=p.top;
+            posl=p.left;
 		},
 		stop: function(e, ui) {
-			var p=ui.position;
-			console.log(p.top+' '+p.left);
+			
+            var p=ui.position;
+            post=p.top;
+            posl=p.left;
+		//	console.log(p.top+' '+p.left);
 		//	alert('drag stopped');
 		},
 		containment:"#displayarea"
@@ -245,7 +259,17 @@ var dx1='';var dy1='';
 
 
 
-
+$('.get1').click(function(){
+    
+    selectedcustomer=$(this).attr('id');
+    
+    //$("#"+selectedcustomer).css('background-color','#53c653');
+    
+    
+    alert(selectedcustomer);
+   // $('.selection5').show();
+    
+    });
 
 
  $("body").on("click",".logoc", function(){
@@ -346,12 +370,6 @@ $("#quantity").keypress(function (e) {
 
 
 
-   $('.grp').change(function(){
-
-var paymentmode= $('.grp').attr('id');
-//$('.selection6').show(500);
-alert(paymentmode)
-});
 
 $('#logo').css('height',val.lheight);
 $("#displayarea").css("margin-top",val.y1);
@@ -388,11 +406,147 @@ $('#total').text(x11);
 
     });
 
-$('.selection1').show(500);
 
+    $('.selection1').show(500);
 
 
   });
+
+
+  $('#cdetail').click(function(){
+var cname=$('#cname').val();
+var cadd1=$('#cadd1').val();
+var cadd2=$('#cadd2').val();
+var landmark=$('#landmark').val();
+var pincode=$('#pincode').val();
+var country=$('#country').val();
+var state=$('#state').val();
+var city=$('#city').val()
+var ccode=$('#ccode').val();
+var mobile=$('#mobile').val();
+var email=$('#email').val();
+alert(cname+' '+cadd1+' '+cadd2+' '+landmark+' '+pincode+' '+country+' '+state+' '+city+' '+ccode+' '+mobile+' '+email);
+$.post("addcustomer.php",
+    {
+      cname:cname,
+      cadd1:cadd1,
+      cadd2:cadd2,
+      landmark:landmark,
+      pincode:pincode,
+      country:country,
+      state:state,
+      city:city,
+      ccode:ccode,
+      mobile:mobile,
+      email:email
+    }, function(data, status){
+        alert(data);
+    }).then(function(){
+
+      location.reload();
+    });
+});
+
+
+  $('.grp').change(function(){
+
+ paymentmode= $(this).attr('id');
+//$('.selection6').show(500);
+alert(paymentmode)
+});
+
+
+
+$("#submit").click(function(){
+
+var size=$('#hl').text();
+var sizew=$('#wl').text();
+var sellp=$('#sellp').val();
+var name1=$('#m1').text();
+var name2=$('#m2').text();
+var brand=$('#i1').val();
+var model=$('#i2').val();
+
+
+
+alert(category+' '+brand+' '+model+' '+size+' '+sizew+' '+quantity+' '+sellp+' '+category+' '+mainproductid+' '+logoid1+' '+selectedcustomer+' '+paymentmode+'  '+totalp+'  '+posl+'  '+post);
+
+$.get("orderp.php",
+  {
+     
+      category:category,
+      brand:brand,
+      model:model,
+      size:size,
+      quantity:quantity,
+      sellp:sellp,
+      category:category,
+      mainproductid:mainproductid,
+      logoid:logoid1,
+      selectedcustomer:selectedcustomer,
+      paymentmode:paymentmode,
+      total:totalp,
+      sizew:sizew,
+        mainid:mainid1
+  }, function(data, status){
+      alert(data);
+  });
+  
+});
+
+
+
+   
+$('#quantity').change(function(){
+   quantity=$('#quantity').val();
+   category=$('#category').val();
+   brand=$('#brand').val();
+   model=$('#model').val();
+  
+  //alert(zone);
+
+  $('#finalp').show(1000);
+  $('#evaluatearea').show(1000);
+ $('#quantity1').text(quantity);
+
+ $('#pname1').text(category+' '+brand+' '+model);
+$('#priceperp').text(mainproductprice);
+ $('#pprice1').text(quantity*mainproductprice);
+//var zonep;
+
+ $.post("zone.php",
+    {
+      zone:zone
+    }, function(data, status){
+        $('#zonepp').text(data);
+    var    zonep=data;
+        //alert("parsed"+zonep+1000);
+    }).then(function(){
+
+      zonep=parseInt($('#zonepp').text());
+      // alert(parseInt(zonep)+400);
+
+      //  var ff=zonep;
+
+//zonep=$('#zonepp').text();
+ //lert(parseInt(ff)+80);
+var m=quantity*mainproductprice;
+//alert('m='+m);
+var x11=zonep+m;
+//alert('x11'+x11);
+//alert('zonep'+ff);
+//alert(x11);
+totalp=x11;
+$('#total').text(x11);
+
+
+    });
+
+
+
+});
+
+
 
 $('#open-preview').click(function(){
   //  alert($("#hideid").text());
@@ -738,11 +892,16 @@ $('.kk').hide();
                                </div>
                                <div class="row">
                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                            <span>Cost<h4>3000</h4></span>
+                            <span>Cost<h4 id="logocharges1"></h4></span>
                             </div>
                             </div>
+
+
                             </div>
+                
                         </div>
+                        
+
                     </div>
 
                         
@@ -791,10 +950,7 @@ $('.kk').hide();
                                             
                                             
                                         </div>
-                                        <button type="button" class="btn btn-secondary selection1"  id="showupload" data-toggle="modal" data-target="#exampleModalCenter" >
- Upload new design 
-</button>
-
+                  
 <div class="row">
 
 
@@ -931,7 +1087,7 @@ $('.kk').hide();
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
+        <h5 class="modal-title" id="exampleModalCenterTitle">My Customers</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -944,11 +1100,12 @@ $('.kk').hide();
 
   <thead>
   <tr></tr>
-    <tr style="background-color: #204c67;color: white;" ><th>select</th><th>Customer name</th><th>Country</th><th>City</th><th>Pincode</th><th>Landmark</th></tr></thead>
+    <tr style="color: white;" ><th>select</th><th>Customer name</th><th>Country</th><th>City</th><th>Pincode</th><th>Landmark</th></tr></thead>
 <tbody>
   
   
-  <?php
+  
+<?php
 $sql="select * from customerdetail where recordholder='$id'";
 
 $result=mysqli_query($conn,$sql);
@@ -959,7 +1116,12 @@ while ($row=mysqli_fetch_assoc($result)) {
  
  <tr id="<?php echo $row['id'];?>" >
   <td>
-<input type="radio" name="group" class="get1" data-dismiss="modal" aria-label="Close" id="<?php echo $row['id'];?>" >
+  <label class="custom-control custom-radio">
+  <input type="radio" name="radio-stacked" class="custom-control-input get1" data-dismiss="modal" aria-label="Close" id="<?php echo $row['id'];?>" >
+      <span class="custom-control-label"></span>
+                                            </label>
+  <input type="radio" name="radio-inline" class="custom-control-input" disabled>
+
 </td>
 <td><b>
 <?php echo $row['name'];?></b></td>
@@ -992,7 +1154,7 @@ while ($row=mysqli_fetch_assoc($result)) {
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+       
       </div>
     </div>
   </div>
@@ -1076,6 +1238,14 @@ while ($row=mysqli_fetch_assoc($result)) {
                                                     Please provide a valid city.
                                                 </div>
                                             </div>
+                                            <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 mb-2">
+                                                <label for="validationCustom03">Country Code</label>
+                                              
+                                                <input type="text"  class="form-control" id="ccode"  placeholder="+91" required >
+                                                <div class="invalid-feedback">
+                                                    Please provide a valid city.
+                                                </div>
+                                            </div>
 
                                             <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 mb-2">
                                                 <label for="validationCustom03">mobile Number</label>
@@ -1109,10 +1279,11 @@ while ($row=mysqli_fetch_assoc($result)) {
                                         <div class="card-body">
 
                                         <label class="custom-control custom-radio custom-control-inline">
-                                                <input type="radio" name="radio-inline"  id="cod" class="custom-control-input grp"><span class="custom-control-label">COD</span>
+                                        
+                                                <input type="radio" name="radio-inline"  id="cod" class="custom-control-input grp" value="cod"><span class="custom-control-label">COD</span>
                                             </label>
                                             <label class="custom-control custom-radio custom-control-inline">
-                                                <input type="radio" name="radio-inline" id="online" class="custom-control-input grp"><span class="custom-control-label">Online Payment</span>
+                                                <input type="radio" name="radio-inline" id="online" class="custom-control-input grp" value="online" ><span class="custom-control-label">Online Payment</span>
                                             </label>
                                         </div>
                                     </div>
@@ -1131,7 +1302,7 @@ while ($row=mysqli_fetch_assoc($result)) {
                                                         <th class="border-0">Quantity</th>
                                                         <th class="border-0">Print Charges</th>
                                                        
-                                                        <th class="border-0">Customer</th>
+                                                        <th class="border-0"></th>
                                                        
                                                     </tr>
                                                 </thead>
@@ -1142,9 +1313,9 @@ while ($row=mysqli_fetch_assoc($result)) {
                                                         <td id="pname1"></td>
                                                         <td id="priceperp"> </td>
                                                         <td id="quantity1"></td>
-                                                        <td id="pprice1"></td>
+                                                        <td id="logocharges"></td>
                                                    
-                                                        <td>Product Price </td>
+                                                        <td id="pprice1"></td>
                                                       
                                                     </tr>
                                                     <tr>
@@ -1195,7 +1366,7 @@ echo 'A/C: '.$row['accaunt'];
                                                         <td ></td>
                                                         <td ></td>
                                                    
-                                                        <td id="total" > </td>
+                                                        <td ><h4 id="total" ></h4> </td>
                                                       
                                                     </tr>
                                                     <tr>

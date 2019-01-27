@@ -16,6 +16,7 @@ include 'connection.php';
 <html lang="en">
  
 <head>
+
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=yes">
@@ -29,34 +30,145 @@ include 'connection.php';
     <link rel="stylesheet" href="assets/vendor/fonts/material-design-iconic-font/css/materialdesignicons.min.css">
     <link rel="stylesheet" href="assets/vendor/charts/c3charts/c3.css">
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-     <script src="libs/jquery.js"></script>
-        <script src="dist/clayfy.min.js"></script>
-        <link rel="stylesheet" href="dist/clayfy.min.css" type="text/css">
-    <title>Vendorboat</title>
-<style type="text/css">
-    #logo{
 
-  position:absolute;
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <link rel="stylesheet" type="text/css" 
+	href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.1/themes/base/jquery-ui.css"/>
+<style type="text/css">
+   #logo{
+
+                height: 100px;
+                width : 150px;
+                background : red;
+              
+                top: 10px;
+                left: 10px;
+
+
+            }
+            #main{
+                  background-size: cover;
+                margin-bottom: 20px;
+                height: 300px;
+               width: 300px;
+               position: relative;
+              
+            }
+
+            #errmsg1
+{
+color: red;
+}
+#errmsg
+{
+color: red;
+}
+            
+            #wrapper
+{
+ text-align:center;
+ margin:0 auto;
+ padding:0px;
 
 }
+#drop-area
+{
+ 
 
-#main {
-  position:relative;
+ background-color:white;
+ 
+}      
+
+
+
+#displayarea{
+    position: absolute;
+}
+
+
+#open-preview{
     background-size: cover;
+}
+#open-preview :hover  {
    
-
-  width:300px;
-  height:300px;
-  border: 1px dotted black;
-        /*  clip the excess when child gets bigger than parent  */
+    border:1px dotted gray;
+     opacity: 0.3;
 }
 
 
 </style>
+
+<script>
+
+function _(el){
+  return document.getElementById(el);
+}
+function uploadFile(){
+ var jjj=document.getElementById('sqa').value;
+ alert(jjj);
+ console.log(jjj);
+  var file = _("file1").files[0];
+  // alert(file.name+" | "+file.size+" | "+file.type);
+  var formdata = new FormData();
+  formdata.append("file1", file);
+  var ajax = new XMLHttpRequest();
+  ajax.upload.addEventListener("progress", progressHandler, false);
+  ajax.addEventListener("load", completeHandler, false);
+  ajax.addEventListener("error", errorHandler, false);
+  ajax.addEventListener("abort", abortHandler, false);
+  ajax.open("GET", "file_upload_parser.php?file1="+file+"&sqa="+jjj);
+  ajax.send(formdata);
+}
+function progressHandler(event){
+  _("loaded_n_total").innerHTML = "Uploaded "+event.loaded+" bytes of "+event.total;
+  var percent = (event.loaded / event.total) * 100;
+  _("progressBar").value = Math.round(percent);
+  _("status").innerHTML = Math.round(percent)+"% uploaded... please wait";
+}
+function completeHandler(event){
+  _("status").innerHTML = event.target.responseText;
+  _("progressBar").value = 0;
+}
+function errorHandler(event){
+  _("status").innerHTML = "Upload Failed";
+}
+function abortHandler(event){
+  _("status").innerHTML = "Upload Aborted";
+}
+</script>
+
+  <style>
+            h3{
+                margin: 30px 0 0 0;
+            }
+            p{
+                margin: 0
+            }
+            pre{
+                margin: 0;
+                color : #555;
+            }
+            .rect {
+                height: 100px;
+                width : 150px;
+                background : #ccc;
+                position: absolute;
+                top: 10px;
+                left: 10px;
+
+            }
+            .container{
+                margin-bottom: 20px;
+                height: 300px;
+               width: 300px;
+                position: relative;
+            }
+            
+            
+            
+        </style>
+
     <script type="text/javascript">
                      var v1=0;
                 var mainproductid=0;
@@ -72,6 +184,49 @@ include 'connection.php';
 
  $(document).ready(function(){
 
+
+
+		$('#logo')
+	.resizable(
+
+{
+     resize:true,
+    start: function(e, ui) {
+    //	alert('resizing started');
+
+    var p=ui.size;
+$('#hl').text($(this).height);
+$('#wl').text(p.width);
+    },
+    resize: function(e, ui) {
+        var p=ui.size;
+$('#hl').text(p.height);
+$('#wl').text(p.width);
+    },
+    stop: function(e, ui) {
+        var p=ui.size;
+$('#hl').text(p.height);
+$('#wl').text(p.width);
+        //alert('resizing stopped');
+    },
+    containment:"#displayarea"
+
+}).parent().draggable({
+		start: function(e, ui) {
+          
+		},
+		resize: function(e, ui) {
+		
+		},
+		stop: function(e, ui) {
+			var p=ui.position;
+			console.log(p.top+' '+p.left);
+		//	alert('drag stopped');
+		},
+		containment:"#displayarea"
+	});
+
+
               var v=$("#main").position();
               var marginl=$("#main").css("margin-left");
               var margint=$("#main").css("margin-top");
@@ -82,33 +237,46 @@ include 'connection.php';
               var width1=$("#logo").outerWidth();
               var height1=$("#logo").outerHeight();
               var totalp;
+              var dish='';
+              var disw='';
+var dx1='';var dy1='';
 
 
-            $("#logo").css("margin-left",marginl);
-            $("#logo").css("margin-top",margint);
-            $("#logo").css("padding-left",paddingl);
-            $("#logo").css("padding-top",paddingt);
-            $("#logo").css("top",v.top+height/2-height1/2);
-            $("#logo").css("left",v.left+width/2-width1/2);
 
-                $('#category').change(function(){
-                var id=$(this).attr('id');
-                var cat=$(this).val();
-                //alert(cat);
-                $('#'+id).attr('onkeyup',cat);
-                $(location).attr('href', 'createorder.php?category='+cat);
-                //$('#'+id).attr('onkeyup',cat);
-                $('#bb').text(cat);
-                });
 
 
 
 
  $("body").on("click",".logoc", function(){
     logoid1=$(this).attr('id');
+
+
 var g= $(this).attr('src');
+
+
+//alert(dish+' '+disw);
+
 $('#logo').attr('src',g);
   });
+
+            $('#hideid').hide();
+
+   $("body").on("click","#searchbutton", function(){
+  var id=$("#search").val();
+$('#myicons').load('mylogo.php?id='+id);
+});
+
+
+                $('#category').change(function(){
+                var id=$(this).attr('id');
+                var cat=$(this).val();
+                //alert(cat);
+                $('#'+id).attr('onkeyup',cat);
+                $(location).attr('href', 'createorder7.php?category='+cat);
+                //$('#'+id).attr('onkeyup',cat);
+                $('#bb').text(cat);
+                });
+
 
 
 $('#grab').click(function(){
@@ -130,29 +298,55 @@ zone=val.zone;
 pmodel=val.model;
 
 mainproductprice=val.price;
-$('#main').attr('src',val.imagepath);
 
+$('#main').css('background-image','url('+val.imagepath+')');
+$('#open-preview').css('background-image','url('+val.imagepath+')');
 $('.img2').attr('src',val.img2);
 $('.img3').attr('src',val.img3);
+dish=val.lheight;
+disw=val.lwidth;
+dx1=val.x1;
+dy1=val.y1;
+
+
+
+
+
   });
 });
 
 
+ // alert(dish+' '+val.lheight);
+$('#main').css('background-image','url('+val.imagepath+')');
+$('.img2').attr('src',val.img2);
+$('.img3').attr('src',val.img3);
+$('#displayarea').css('height',val.lheight);
+$('#displayarea').css('width',val.lwidth);
 
-  quantity=$('#quantity').val();
-   category=$('#category').val();
-   brand=$('#brand').val();
-   model=$('#model').val();
-  
-  //alert(zone);
 
-  $('#finalp').show(1000);
-  $('#evaluatearea').show(1000);
- $('#quantity1').text(quantity);
+$("#quantity").keypress(function (e) {
+     //if the letter is not digit then display error and don't type anything
+     if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+        //display error message
+        $("#errmsg").html("Digits Only").show().fadeOut("slow");
+               return false;
+    }
+   });
+    $("#sellp").keypress(function (e) {
+     //if the letter is not digit then display error and don't type anything
+     if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+        //display error message
+        $("#errmsg1").html("Digits Only").show().fadeOut("slow");
+               return false;
+    }
+   });
+   
 
- $('#pname1').text(category+' '+brand+' '+model);
-$('#priceperp').text(mainproductprice);
- $('#pprice1').text(quantity*mainproductprice);
+$('#logo').css('height',val.lheight);
+$("#displayarea").css("margin-top",val.y1);
+$('#logo').css('width',val.lwidth);
+$('#logo').css('left',val.x1);
+$('#logo').css('top',val.y1);
 //var zonep;
 
  $.post("zone.php",
@@ -189,12 +383,42 @@ $('.selection1').show(500);
 
   });
 
+$('#open-preview').click(function(){
+  //  alert($("#hideid").text());
+ var id1=$("#hideid").text();
+ //var h=$('#displayarea').height();
+//var w=$('#displayarea').width();
+/*
+$('#displayarea').css('height',dish+'px');
+$('#displayarea').css('width',disw+'px');
+$('#displayarea').css('margin-top',dy1);
+$('#displayarea').css('margin-left',dx1);
+*/
+
+$('#displayarea').css('height',dish);
+$('#displayarea').css('width',disw);
+$("#displayarea").css("margin-top",dy1+'px');
+$("#displayarea").css("margin-left",dx1+'px');
+
+$('#logo').css('height',dish-10);
+
+$('#logo').css('width',disw-10);
+
+alert(dish);
+$('#myicons').load('mylogo.php?id1='+id1);
+$('.selection12').show(500);
+});
+
 
 
 $('.kk').hide();
 
     });
     </script>
+
+
+
+        
 </head>
 
 <body>
@@ -207,7 +431,7 @@ $('.kk').hide();
         <!-- ============================================================== -->
         <div class="dashboard-header">
             <nav class="navbar navbar-expand-lg bg-white fixed-top">
-                <a class="navbar-brand" href="index.html">vendorboat</a>
+            <img src="images/logo.png" style="height:70px; width:200px;">
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -252,22 +476,23 @@ $('.kk').hide();
                             <li class="nav-divider">
                                 Menu
                             </li>
-                            <li class="nav-item ">
-                                <a class="nav-link active" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-1" aria-controls="submenu-1"><i class="fa fa-fw fa-user-circle"></i>Dashboard <span class="badge badge-success">6</span></a>
-                                                           </li>
+                              <li class="nav-item">
+                                            <a class="nav-link" href="main.php"><i class="fa fa-fw fa-user-circle"></i>Dashboard<span class="badge badge-secondary">New</span></a>
+                                        </li>
+                     
                             <li class="nav-item">
                                 <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-2" aria-controls="submenu-2"><i class="fa fa-fw fa-rocket"></i>Orders</a>
                                 <div id="submenu-2" class="collapse submenu" style="">
                                     <ul class="nav flex-column">
                                         <li class="nav-item">
-                                            <a class="nav-link" href="pages/createorder.php">Create New<span class="badge badge-secondary">New</span></a>
+                                            <a class="nav-link" href="createorder.php">Create New<span class="badge badge-secondary">New</span></a>
                                         </li>
                                        
                                         <li class="nav-item">
-                                            <a class="nav-link" href="pages/carousel.html">My Orders</a>
+                                            <a class="nav-link" href="myorder.php">My Orders</a>
                                         </li>
                                          <li class="nav-item">
-                                            <a class="nav-link" href="pages/general.html">Track Order</a>
+                                            <a class="nav-link" href="trackorder.php">Track Order</a>
                                         </li>
                                     
                                     </ul>
@@ -293,122 +518,26 @@ $('.kk').hide();
                     </div>
                 </nav>
             </div>
-
-
         </div>
-
-</div>
-        
         <!-- ============================================================== -->
         <!-- end left sidebar -->
         <!-- ============================================================== -->
         <!-- ============================================================== -->
         <!-- wrapper  -->
         <!-- ============================================================== -->
-     
-
-
- 
-                    <!-- ============================================================== -->
-                    <!-- basic table  -->
-                    <!-- ============================================================== -->
-                    
-                    <!-- ============================================================== -->
-                    <!-- end basic table  -->
-                    <!-- ============================================================== -->
-            
-
-    <div class="dashboard-wrapper">
+        <div class="dashboard-wrapper">
             <div class="dashboard-ecommerce">
                 <div class="container-fluid dashboard-content ">
-  <div class="row">
-                    <!-- ============================================================== -->
-                    <!-- basic table  -->
-                    <!-- ============================================================== -->
-                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                        <div class="card">
-                            <h5 class="card-header">Basic Table</h5>
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                    <table class="table table-striped table-bordered first">
-                                        <thead>
-                                            <tr>
-                                                <th>Order Id</th>
-                                                <th>Order Type</th>
-                                                <th>Date Of Order</th>
-                                                <th>Price</th>
-                                                <th>Order Mode</th>
-                                                <th>Status</th>
-                                                <th>More Info</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                           
-                                                
-                                               
-                                          
-                                            <?php 
-
-$id=$_SESSION['id'];
-
-$sql = "SELECT * FROM `orders` WHERE customerid =$id Order by 'dateoforder' ASC";
-    
-$result=mysqli_query($conn,$sql);
-
-while ($row=mysqli_fetch_assoc($result)) {
-?>
-<tr>
-   <td><?php echo $row['id'];  ?></td>
-     <td><?php echo $row['type'];  ?></td>
-  <td><?php echo $row['dateoforder'];  ?></td>
- 
-  <td><?php echo $row['totalprice'];  ?></td>
-  <td><?php echo $row['ordermode'];  ?></td>
-  <td><?php
-if($row['status']=='shipped'){
-   echo '<p style="color:red;">'.$row['status'].'</p>';
-}else if($row['status']=='ordered'){
-   echo '<p style="color:blue;">'.$row['status'].'</p>';
-}
-    ?></td>
-  <td ><span class="glyphicon glyphicon-info-sign oo" id="<?php echo $row['id'];  ?>" ></span></td>
-  
-</tr>
-
-<?php
-}
-
-
-  ?>
-   
-                                        </tbody>
-                                        <tfoot>
-                                            <tr>
-                                                <th>Name</th>
-                                                <th>Position</th>
-                                                <th>Office</th>
-                                                <th>Age</th>
-                                                <th>Start date</th>
-                                                <th>Salary</th>
-                                            </tr>
-                                        </tfoot>
-                                    </table>
-                                </div>
-                            </div>
+                   
+       
                         </div>
-                    </div>
-                    <!-- ============================================================== -->
-                    <!-- end basic table  -->
-                    <!-- ============================================================== -->
-                </div>
-
-                </div>
-
-              </div>
-            </div>
-
-
                        
+  </div>
+  </div>
+
+
+                   
+
 
 
     <!-- ============================================================== -->
@@ -416,7 +545,7 @@ if($row['status']=='shipped'){
     <!-- ============================================================== -->
     <!-- Optional JavaScript -->
     <!-- jquery 3.3.1 -->
-    <script src="assets/vendor/jquery/jquery-3.3.1.min.js"></script>
+   
     <!-- bootstap bundle js -->
     <script src="assets/vendor/bootstrap/js/bootstrap.bundle.js"></script>
     <!-- slimscroll js -->
@@ -424,7 +553,7 @@ if($row['status']=='shipped'){
     <!-- main js -->
     <script src="assets/libs/js/main-js.js"></script>
     <!-- chart chartist js -->
-    <script src="assets/vendor/charts/chartist-bundle/chartist.min.js"></script>
+  
     <!-- sparkline js -->
     <script src="assets/vendor/charts/sparkline/jquery.sparkline.js"></script>
     <!-- morris js -->
@@ -435,6 +564,7 @@ if($row['status']=='shipped'){
     <script src="assets/vendor/charts/c3charts/d3-5.4.0.min.js"></script>
     <script src="assets/vendor/charts/c3charts/C3chartjs.js"></script>
     <script src="assets/libs/js/dashboard-ecommerce.js"></script>
+
 </body>
  
 </html>

@@ -16,9 +16,10 @@ include 'connection.php';
 <html lang="en">
  
 <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
+      <!-- Required meta tags -->
+      <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=yes">
+    
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="assets/vendor/bootstrap/css/bootstrap.min.css">
     <link href="assets/vendor/fonts/circular-std/style.css" rel="stylesheet">
@@ -29,31 +30,38 @@ include 'connection.php';
     <link rel="stylesheet" href="assets/vendor/fonts/material-design-iconic-font/css/materialdesignicons.min.css">
     <link rel="stylesheet" href="assets/vendor/charts/c3charts/c3.css">
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-     <script src="libs/jquery.js"></script>
-        <script src="dist/clayfy.min.js"></script>
-        <link rel="stylesheet" href="dist/clayfy.min.css" type="text/css">
+
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <link rel="stylesheet" type="text/css" 
+	href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.1/themes/base/jquery-ui.css"/>
+    
     <title>Vendorboat</title>
 <style type="text/css">
-    #logo{
+   #logo{
 
-  position:absolute;
+                height: 100px;
+                width : 150px;
+                background : red;
+              
+
+
+            }
+#main{
+  background-size: cover;
+margin-bottom: 20px;
+height: 300px;
+width: 300px;
+position: relative;
 
 }
 
-#main {
-  position:relative;
-    background-size: cover;
-   
+#displayarea{
+    position: absolute;
+    overflow:hidden;
 
-  width:300px;
-  height:300px;
-  border: 1px dotted black;
-        /*  clip the excess when child gets bigger than parent  */
 }
+
 
 
 </style>
@@ -71,6 +79,26 @@ include 'connection.php';
                 var  paymentmode=null;
 
  $(document).ready(function(){
+
+$('.llq').hide();
+$('#logo').css('top','0px');
+$('#logo').css('left','0px');
+
+    $('.here').click(function(){
+  var d=$(this).attr('id');
+ //  var status=$(this).attr('name');
+ $('#myModal').modal('toggle');
+$('#myModal').modal('show');
+$('#myModal').modal('hide');
+
+window.location.replace("myorders.php?productid="+d);
+
+
+
+
+alert(d);
+// $(location).attr('href', 'myorders.php?productid='+d);
+});
 
               var v=$("#main").position();
               var marginl=$("#main").css("margin-left");
@@ -104,6 +132,7 @@ include 'connection.php';
 
 
 
+
  $("body").on("click",".logoc", function(){
     logoid1=$(this).attr('id');
 var g= $(this).attr('src');
@@ -111,87 +140,14 @@ $('#logo').attr('src',g);
   });
 
 
-$('#grab').click(function(){
- category=$('#category').val();
- var name1=$('#m1').text();
-  var name2=$('#m2').text();
- brand=$('#i1').val();
- model=$('#i2').val();
-//alert(category+" "+brand+" "+model);
-$.getJSON( "loadproduct.php?category="+category+"&brand="+brand+"&model="+model+"&name1="+name1+"&name2="+name2, function( data ) {
-  pcategory=category;
-  var items = [];
-  $.each( data, function( key, val ) {
-
-mainproductid=val.id;
-zone=val.zone;
-
-//alert(mainproductid+zone);
-pmodel=val.model;
-
-mainproductprice=val.price;
-$('#main').attr('src',val.imagepath);
-
-$('.img2').attr('src',val.img2);
-$('.img3').attr('src',val.img3);
-  });
-});
-
-
-
-  quantity=$('#quantity').val();
-   category=$('#category').val();
-   brand=$('#brand').val();
-   model=$('#model').val();
-  
-  //alert(zone);
-
-  $('#finalp').show(1000);
-  $('#evaluatearea').show(1000);
- $('#quantity1').text(quantity);
-
- $('#pname1').text(category+' '+brand+' '+model);
-$('#priceperp').text(mainproductprice);
- $('#pprice1').text(quantity*mainproductprice);
-//var zonep;
-
- $.post("zone.php",
-    {
-      zone:zone
-    }, function(data, status){
-        $('#zonepp').text(data);
-    var    zonep=data;
-        //alert("parsed"+zonep+1000);
-    }).then(function(){
-
-      zonep=parseInt($('#zonepp').text());
-      // alert(parseInt(zonep)+400);
-
-      //  var ff=zonep;
-
-//zonep=$('#zonepp').text();
- //lert(parseInt(ff)+80);
-var m=quantity*mainproductprice;
-//alert('m='+m);
-var x11=zonep+m;
-//alert('x11'+x11);
-//alert('zonep'+ff);
-//alert(x11);
-totalp=x11;
-$('#total').text(x11);
-
-
-    });
-
-$('.selection1').show(500);
-
-
-
-  });
 
 
 
 $('.kk').hide();
+
+
+
+
 
     });
     </script>
@@ -207,6 +163,7 @@ $('.kk').hide();
         <!-- ============================================================== -->
         <div class="dashboard-header">
             <nav class="navbar navbar-expand-lg bg-white fixed-top">
+           
                 <a class="navbar-brand" href="index.html">vendorboat</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -260,14 +217,14 @@ $('.kk').hide();
                                 <div id="submenu-2" class="collapse submenu" style="">
                                     <ul class="nav flex-column">
                                         <li class="nav-item">
-                                            <a class="nav-link" href="pages/createorder.php">Create New<span class="badge badge-secondary">New</span></a>
+                                            <a class="nav-link" href="createorder.php">Create New<span class="badge badge-secondary">New</span></a>
                                         </li>
                                        
                                         <li class="nav-item">
-                                            <a class="nav-link" href="pages/carousel.html">My Orders</a>
+                                            <a class="nav-link" href="myorders.php">My Orders</a>
                                         </li>
                                          <li class="nav-item">
-                                            <a class="nav-link" href="pages/general.html">Track Order</a>
+                                            <a class="nav-link" href="trackorder.php">Track Order</a>
                                         </li>
                                     
                                     </ul>
@@ -325,6 +282,213 @@ $('.kk').hide();
                     <!-- ============================================================== -->
                     <!-- basic table  -->
                     <!-- ============================================================== -->
+
+
+                    
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                        <div class="card">
+                        
+                            <div class="card-body">
+
+                            <div class="table-responsive">
+                                    <table class="table table-striped table-bordered first">
+                                        <thead>
+                                            <tr>
+                                                <th></th>
+                                                <th>Details</th>
+                                                
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                          
+
+                            <?php
+if (isset($_GET['productid'])) {
+$logoid1;
+$pid1;
+$mainid;
+$category1=null;
+$type=null;
+$customerid1=null;
+$subcustomerid=null;
+$mainimage=null;
+$logoh1=null;
+$logow1=null;
+$logox1=null;
+$logoy1=null;
+ $pid=$_GET['productid'];
+ 
+$sql1 ="select * from orders where id=$pid";
+$result1=mysqli_query($conn,$sql1);
+
+while ($row=mysqli_fetch_assoc($result1)) {
+
+$logoh1=$row['heightl'];
+$logow1=$row['widthl'];
+$logox1=$row['x1'];
+$logoy1=$row['y1'];
+
+
+    $veri=$row['id'];
+?>
+<tr>
+  <td>Order Id</td>
+   <td><?php echo $row['id']; ?></td>
+</tr>
+ <tr>
+<td>Date of order</td>
+<td><?php echo $row['dateoforder']; ?></td>
+</tr>
+  <tr>
+<td>product ID</td>
+<td><?php echo $row['productid']; ?></td>
+</tr>
+<tr>
+  <td>Current Status</td>
+ <td><?php echo $row['status']; ?></td>
+</tr>
+
+<tr  ><td colspan="2"  >
+     <center style="margin-top:15px; ">   
+<?php
+
+$logoid1=$row['logoid'];
+
+$pid1=$row['productid'];
+$mainid=$row['mainlogoid'];
+$type=$row['type'];
+$customerid1=$row['customerid'];
+$subcustomerid=$row['subcustomerid'];
+}
+
+$sql2="select * from category where category='$type'" ;
+
+$result2=mysqli_query($conn,$sql2);
+
+while ($row=mysqli_fetch_assoc($result2)) {
+$category1=$row['category'];
+}
+$lheight='';
+$lwidth='';
+$x1='';
+$y1='';
+
+$sql2="select * from $category1 where id=$pid1" ;
+$result3=mysqli_query($conn,$sql2);
+?>
+<?php
+while ($row=mysqli_fetch_assoc($result3)) {
+  $lheight=$row['lheight'];
+  $lwidth=$row['lwidth'];
+  $x1=$row['x1'];
+  $y1=$row['y1'];
+  $mainimage=$row['imagepath'];
+  if($mainid=='main'){
+?>
+<center><input type="button" id="loadimage" value="load images"></center>
+<p id="lheight" class="llq"> <?php echo $lheight; ?></p>
+<p id="lwidth" class="llq"> <?php echo $lwidth; ?></p>
+<p id="x1" class="llq"> <?php echo $x1; ?></p>
+<p id="y1" class="llq"> <?php echo $y1; ?></p>
+<div id="displayimage">
+
+<?php
+}else{
+?>
+
+<?php
+}
+}
+$sql2="select * from logo where id=$logoid1" ;
+
+$result2=mysqli_query($conn,$sql2);
+
+while ($row=mysqli_fetch_assoc($result2)) {
+  ?>
+<tr>
+<td>
+                                  
+<div id="main" style="background-color:#c7c7c7;background-image:url('<?php echo $mainimage;?>');height:300px;width:300px;"> 
+<div id="displayarea"  style="border:1px dotted gray; height:<?php echo $lheight.'px'; ?>;width:<?php echo $lwidth.'px'; ?>;margin-left:<?php echo $x1.'px'; ?>;margin-top:<?php echo $y1.'px'; ?>;">
+
+<img id="logo" src="<?php echo $row['imagepath'];?>"  style="height:<?php echo $logoh1.'px'; ?>;width:<?php echo $logow1.'px'; ?>;margin-left:<?php echo $logox1.'px'; ?>;top:0;left:0;margin-top:<?php echo $logoy1.'px'; ?>">
+</div>
+</div>    
+</td>
+<td>
+</td>
+</tr>
+  </div>
+  
+  <?php
+
+
+
+  
+?></center>
+</td></tr>
+<?php
+
+}
+
+$sql2="select * from customer where id=$customerid1" ;
+
+$result2=mysqli_query($conn,$sql2);
+
+while ($row=mysqli_fetch_assoc($result2)) {
+
+ ?>
+ <tr><td colspan="2"><center><h2>Marchant Detail</h2></center></td></tr>
+ <tr><td>Marchant Name</td><td><?php echo $row['fname'].'  ',$row['mname'].'  '.$row['lname']; ?></td></tr>
+ <tr><td> Marchant Address</td><td><?php echo $row['address'];?></td></tr>
+ <tr><td>Pin Code</td><td><?php echo $row['pin'];?></td></tr>
+  <tr><td>Contact</td><td><?php echo $row['contact'];?></td></tr>
+<?php }
+
+
+
+$sql2="select * from customerdetail where id=$subcustomerid" ;
+
+
+$result2=mysqli_query($conn,$sql2);
+
+while ($row=mysqli_fetch_assoc($result2)) {
+
+?>
+<tr ><td colspan="2"><center><h2>Customer Detail</h2></center></td></tr>
+<tr><td>Customer Name</td><td><?php echo $row['name'];?></td></tr>
+<tr><td>Address</td><td><?php echo $row['add1'];?></td></tr>
+<tr><td>Landmark</td><td><?php echo $row['landmark'];?></td></tr>
+<tr><td>State</td><td><?php echo $row['state'];?></td></tr>
+<tr><td>City</td><td><?php echo $row['city'];?></td></tr>
+<tr><td>Pin</td><td><?php echo $row['pincode'];?></td></tr>
+<tr><td>Landmark</td><td><?php echo $row['landmark'];?></td></tr>
+<tr><td>E-mail</td><td><?php echo $row['email'];?></td></tr>
+<tr><td>Mobile</td><td><?php echo $row['mobile'];?></td></tr>
+<?php
+}
+
+
+
+}
+
+
+?>
+ </tbody>
+                                           </table>
+                                           </div>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+
+
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                         <div class="card">
                             <h5 class="card-header">Basic Table</h5>
@@ -371,8 +535,13 @@ if($row['status']=='shipped'){
    echo '<p style="color:blue;">'.$row['status'].'</p>';
 }
     ?></td>
-  <td ><span class="glyphicon glyphicon-info-sign oo" id="<?php echo $row['id'];  ?>" ></span></td>
-  
+  <td ><p id="<?php echo $row['id']; ?>" class="here" style="color: blue;" name="<?php echo $row['status'] ?>">More info</p></td>
+<td>
+
+
+
+
+</td>
 </tr>
 
 <?php
@@ -382,17 +551,11 @@ if($row['status']=='shipped'){
   ?>
    
                                         </tbody>
-                                        <tfoot>
-                                            <tr>
-                                                <th>Name</th>
-                                                <th>Position</th>
-                                                <th>Office</th>
-                                                <th>Age</th>
-                                                <th>Start date</th>
-                                                <th>Salary</th>
-                                            </tr>
-                                        </tfoot>
+                                    
                                     </table>
+
+
+                               
                                 </div>
                             </div>
                         </div>
@@ -435,6 +598,9 @@ if($row['status']=='shipped'){
     <script src="assets/vendor/charts/c3charts/d3-5.4.0.min.js"></script>
     <script src="assets/vendor/charts/c3charts/C3chartjs.js"></script>
     <script src="assets/libs/js/dashboard-ecommerce.js"></script>
+
+
+    
 </body>
  
 </html>
