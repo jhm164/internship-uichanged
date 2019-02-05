@@ -21,6 +21,7 @@ include 'connection.php';
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=yes">
     
     <!-- Bootstrap CSS -->
+    <link rel="shortcut icon" type="image/png" href="assets/images/fevicon.png" />
     <link rel="stylesheet" href="assets/vendor/bootstrap/css/bootstrap.min.css">
     <link href="assets/vendor/fonts/circular-std/style.css" rel="stylesheet">
     <link rel="stylesheet" href="assets/libs/css/style.css">
@@ -77,8 +78,32 @@ position: relative;
                 var mainproductprice=0;
                 var zonep=0;
                 var  paymentmode=null;
+                var getUrlParameter = function getUrlParameter(sParam) {
+    var sPageURL = window.location.search.substring(1),
+        sURLVariables = sPageURL.split('&'),
+        sParameterName,
+        i;
+
+    for (i = 0; i < sURLVariables.length; i++) {
+        sParameterName = sURLVariables[i].split('=');
+
+        if (sParameterName[0] === sParam) {
+            return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+        }
+    }
+};
 
  $(document).ready(function(){
+
+
+    var tech = getUrlParameter('productid');
+if(tech!=''){
+    $('#exampleModalCenter1').modal('toggle');
+$('#exampleModalCenter1').modal('show');
+$('#exampleModalCenter1').modal('hide');
+}
+
+
 
 $('.llq').hide();
 $('#logo').css('top','0px');
@@ -87,16 +112,15 @@ $('#logo').css('left','0px');
     $('.here').click(function(){
   var d=$(this).attr('id');
  //  var status=$(this).attr('name');
- $('#myModal').modal('toggle');
-$('#myModal').modal('show');
-$('#myModal').modal('hide');
 
+
+ 
 window.location.replace("myorders.php?productid="+d);
 
 
 
 
-alert(d);
+//alert(d);
 // $(location).attr('href', 'myorders.php?productid='+d);
 });
 
@@ -154,17 +178,21 @@ $('.kk').hide();
 </head>
 
 <body>
+
+
+
     <!-- ============================================================== -->
     <!-- main wrapper -->
     <!-- ============================================================== -->
     <div class="dashboard-main-wrapper">
+
+ 
         <!-- ============================================================== -->
         <!-- navbar -->
         <!-- ============================================================== -->
         <div class="dashboard-header">
             <nav class="navbar navbar-expand-lg bg-white fixed-top">
-           
-                <a class="navbar-brand" href="index.html">vendorboat</a>
+            <img src="assets/images/newlogo.png" style="height:77px;width:250px;">
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -278,19 +306,25 @@ $('.kk').hide();
     <div class="dashboard-wrapper">
             <div class="dashboard-ecommerce">
                 <div class="container-fluid dashboard-content ">
-  <div class="row">
-                    <!-- ============================================================== -->
-                    <!-- basic table  -->
-                    <!-- ============================================================== -->
 
 
-                    
-                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                        <div class="card">
-                        
-                            <div class="card-body">
 
-                            <div class="table-responsive">
+
+
+              
+    <!-- Modal -->
+<div class="modal fade" id="exampleModalCenter1" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" >
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalCenterTitle">My Customers</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+      <div class="table-responsive">
                                     <table class="table table-striped table-bordered first">
                                         <thead>
                                             <tr>
@@ -385,7 +419,7 @@ while ($row=mysqli_fetch_assoc($result3)) {
   $mainimage=$row['imagepath'];
   if($mainid=='main'){
 ?>
-<center><input type="button" id="loadimage" value="load images"></center>
+
 <p id="lheight" class="llq"> <?php echo $lheight; ?></p>
 <p id="lwidth" class="llq"> <?php echo $lwidth; ?></p>
 <p id="x1" class="llq"> <?php echo $x1; ?></p>
@@ -438,11 +472,9 @@ $result2=mysqli_query($conn,$sql2);
 while ($row=mysqli_fetch_assoc($result2)) {
 
  ?>
- <tr><td colspan="2"><center><h2>Marchant Detail</h2></center></td></tr>
+ <tr><td colspan="2"><center><h2>Merchant Detail</h2></center></td></tr>
  <tr><td>Marchant Name</td><td><?php echo $row['fname'].'  ',$row['mname'].'  '.$row['lname']; ?></td></tr>
- <tr><td> Marchant Address</td><td><?php echo $row['address'];?></td></tr>
- <tr><td>Pin Code</td><td><?php echo $row['pin'];?></td></tr>
-  <tr><td>Contact</td><td><?php echo $row['contact'];?></td></tr>
+ 
 <?php }
 
 
@@ -477,6 +509,29 @@ while ($row=mysqli_fetch_assoc($result2)) {
  </tbody>
                                            </table>
                                            </div>
+      
+   
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+       
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div class="row">
+                    <!-- ============================================================== -->
+                    <!-- basic table  -->
+                    <!-- ============================================================== -->
+
+
+                    
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                        <div class="card">
+                        
+                            <div class="card-body">
+
 </div>
 </div>
 </div>
@@ -535,7 +590,7 @@ if($row['status']=='shipped'){
    echo '<p style="color:blue;">'.$row['status'].'</p>';
 }
     ?></td>
-  <td ><p id="<?php echo $row['id']; ?>" class="here" style="color: blue;" name="<?php echo $row['status'] ?>">More info</p></td>
+  <td > <p id="<?php echo $row['id']; ?>"  class="here " style="color: blue;cursor:pointer;" name="<?php echo $row['status'] ?>"><span class="fas fa-info-circle"></span> More info</p></td>
 <td>
 
 
@@ -560,6 +615,8 @@ if($row['status']=='shipped'){
                             </div>
                         </div>
                     </div>
+
+
                     <!-- ============================================================== -->
                     <!-- end basic table  -->
                     <!-- ============================================================== -->

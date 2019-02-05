@@ -22,20 +22,11 @@ function getCallbackUrl()
 
 ?>
 
-<!DOCTYPE >
-<html >
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-   <!-- Required meta tags -->
-   <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Concept - Bootstrap 4 Admin Dashboard Template</title>
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="assets/vendor/bootstrap/css/bootstrap.min.css">
-    <link href="assets/vendor/fonts/circular-std/style.css" rel="stylesheet">
-    <link rel="stylesheet" href="assets/libs/css/style.css">
-    <link rel="stylesheet" href="assets/vendor/fonts/fontawesome/css/fontawesome-all.css">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>PayUmoney </title>
+<title>PayUmoney BOLT PHP7 Kit</title>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 
@@ -62,31 +53,24 @@ color="e34524" bolt-logo="http://boltiswatching.com/wp-content/uploads/2015/09/B
 	}
 </style>
 <body>
-<div class="dashboard-wrapper">
-            <div class="dashboard-ecommerce">
-                <div class="container-fluid dashboard-content ">
-                   
-       
-    
-
 <div class="main">
 	<div>
     	<img src="images/payumoney.png" />
     </div>
     <div>
-    	
+    	<h3>PHP7 BOLT Kit</h3>
     </div>
 	<form action="#" id="payment_form">
     <input type="hidden" id="udf5" name="udf5" value="BOLT_KIT_PHP7" />
     <input type="hidden" id="surl" name="surl" value="<?php echo getCallbackUrl(); ?>" />
     <div class="dv">
-  
-    <span><input type="hidden" id="key" name="key" placeholder="Merchant Key" value="k2rnYEPS" /></span>
+    <span class="text"><label>Merchant Key:</label></span>
+    <span><input type="text" id="key" name="key" placeholder="Merchant Key" value="" /></span>
     </div>
     
     <div class="dv">
-   
-    <span><input type="hidden" id="salt" name="salt" placeholder="Merchant Salt" value="l9BqhiuzC4" /></span>
+    <span class="text"><label>Merchant Salt:</label></span>
+    <span><input type="text" id="salt" name="salt" placeholder="Merchant Salt" value="" /></span>
     </div>
     
     <div class="dv">
@@ -120,19 +104,15 @@ color="e34524" bolt-logo="http://boltiswatching.com/wp-content/uploads/2015/09/B
     </div>
     
     <div class="dv">
-    
-    <span><input type="hidden" id="hash" name="hash" placeholder="Hash" value="" /></span>
+    <span class="text"><label>Hash:</label></span>
+    <span><input type="text" id="hash" name="hash" placeholder="Hash" value="" /></span>
     </div>
     
     
-    <div><input type="submit" value="Pay" onclick="launchBOLT(); return false;" class="btn btn-success"/></div>
+    <div><input type="submit" value="Pay" onclick="launchBOLT(); return false;" /></div>
 	</form>
 </div>
-</div>
-                       
-					   </div>
-					   </div>
-					   <script type="text/javascript"><!--
+<script type="text/javascript"><!--
 $('#payment_form').bind('keyup blur', function(){
 	$.ajax({
           url: 'index.php',
@@ -183,7 +163,7 @@ function launchBOLT()
 	if(BOLT.response.txnStatus != 'CANCEL')
 	{
 		//Salt is passd here for demo purpose only. For practical use keep salt at server side only.
-		var fr = '<form action=\"'+$('#surl').val()+'\" method=\"post\">' +
+		var fr = '<form action=\"/response.php" method=\"post\">' +
 		'<input type=\"hidden\" name=\"key\" value=\"'+BOLT.response.key+'\" />' +
 		'<input type=\"hidden\" name=\"salt\" value=\"'+$('#salt').val()+'\" />' +
 		'<input type=\"hidden\" name=\"txnid\" value=\"'+BOLT.response.txnid+'\" />' +

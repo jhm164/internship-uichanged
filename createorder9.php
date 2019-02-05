@@ -89,19 +89,14 @@ color: red;
 }
 
 
-#pencil{
-    display:none;
-   position:absolute;
-}
-
-
 #open-preview{
-    position: relative;
     background-size: cover;
-
 }
-
-
+#open-preview :hover  {
+   
+    border:1px dotted gray;
+     opacity: 0.3;
+}
 
 
 </style>
@@ -187,16 +182,6 @@ function abortHandler(event){
 var posl='';
 var post='';
  $(document).ready(function(){
-
- 
-$("#open-preview").hover(function(){
-   
-$(this).css("opacity", '0.5');
-$('#pencil').css('display','block');
-}, function(){
-$(this).css("opacity", '1');
-$('#pencil').css('display','none');
-});
 
     $('.selection1').hide();
       $('.selection2').hide();
@@ -313,7 +298,7 @@ $('.get1').click(function(){
     //$("#"+selectedcustomer).css('background-color','#53c653');
     
     
-  //  alert(selectedcustomer);
+    alert(selectedcustomer);
    // $('.selection5').show();
     
     });
@@ -472,7 +457,7 @@ var city=$('#city').val()
 var ccode=$('#ccode').val();
 var mobile=$('#mobile').val();
 var email=$('#email').val();
-//alert(cname+' '+cadd1+' '+cadd2+' '+landmark+' '+pincode+' '+country+' '+state+' '+city+' '+ccode+' '+mobile+' '+email);
+alert(cname+' '+cadd1+' '+cadd2+' '+landmark+' '+pincode+' '+country+' '+state+' '+city+' '+ccode+' '+mobile+' '+email);
 $.post("addcustomer.php",
     {
       cname:cname,
@@ -499,7 +484,7 @@ $.post("addcustomer.php",
 
  paymentmode= $(this).attr('id');
 //$('.selection6').show(500);
-//alert(paymentmode)
+alert(paymentmode)
 });
 
 
@@ -516,9 +501,9 @@ var model=$('#i2').val();
 
 
 
-//alert(category+' '+brand+' '+model+' '+size+' '+sizew+' '+quantity+' '+sellp+' '+category+' '+mainproductid+' '+logoid1+' '+selectedcustomer+' '+paymentmode+'  '+totalp+'  '+posl+'  '+post);
+alert(category+' '+brand+' '+model+' '+size+' '+sizew+' '+quantity+' '+sellp+' '+category+' '+mainproductid+' '+logoid1+' '+selectedcustomer+' '+paymentmode+'  '+totalp+'  '+posl+'  '+post);
 
-$.get("orderp.php",
+$.get("PayUMoney_form.php",
   {
      
       category:category,
@@ -618,7 +603,7 @@ $('#logo').css('height',"100px;");
 
 $('#logo').css('width',"50px");
 
-//alert(dish);
+alert(dish);
 $('#myicons').load('mylogo.php?id1='+id1);
 $('.selection12').show(500);
 });
@@ -684,8 +669,7 @@ function uploadFormData(formData)
           
                         <li class="nav-item">
                             <div id="custom-search" class="top-search-bar">
-                            <h4 class="far fa-credit-card">
-                            <b>
+                            <h4>
                             <?php
 if(isset($_SESSION['id'])){
     $id=$_SESSION['id'];
@@ -701,11 +685,13 @@ if(isset($_SESSION['id'])){
     
 
 ?>
-</b>
 </h4>
                             </div>
                         </li>
-                      
+                        <li class="nav-item dropdown notification">
+                            <a class="nav-link nav-icons" href="#" id="navbarDropdownMenuLink1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-fw fa-bell"></i> <span class="indicator"></span></a>
+                           
+                        </li>
                        
                         <li class="nav-item dropdown nav-user">
                             <a class="nav-link nav-user-img" href="#" id="navbarDropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="assets/images/avatar-1.jpg" alt="" class="user-avatar-md rounded-circle"></a>
@@ -929,10 +915,7 @@ if(isset($_SESSION['id'])){
                                             <div class="col-9 col-lg-10">
                                                    <div class="row">     
                                                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">                        
-<center>
-<div  id="open-preview" data-toggle="modal" data-target=".bd-example-modal-lg" style="text-align:center; height: 150px;width: 150px;background-color: gray;border:1px dashed gray; "></div>
-                            </center>         
-                                         <div class="fas fa-plus-square" id="pencil"></div>
+<div  id="open-preview" data-toggle="modal" data-target=".bd-example-modal-lg" style="height: 100px;width: 100px;background-color: gray;border:1px dashed gray; "></div>
                                            </div>
                                            <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
 <button type="button" class="btn btn-primary "  id="showupload" data-toggle="modal" data-target="#exampleModalCenter"  >
@@ -947,8 +930,7 @@ if(isset($_SESSION['id'])){
       
     <div class="modal-content" style="padding: 2%;">
     <div class="modal-header">
-    <input type="button" class="btn btn-success " data-dismiss="modal" value="save">
-                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
           
            
         </div>
@@ -971,11 +953,13 @@ if(isset($_SESSION['id'])){
 
                           <img  id="img2" class="img2 mainc" style="background-color:#c7c7c7; width: 70px;  height: 70px;"  >
                                 <img  id="img3" class="img3 mainc" style="background-color:#c7c7c7;width: 70px;  height: 70px;"   >
-                              
+                             
                             </div>
                         </div>
                     </div>
-                 
+
+
+
                     <div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 col-12">
                         <div class="card">
                             <h5 class="card-header">Slides with Indicators</h5>
@@ -1440,7 +1424,7 @@ while ($row=mysqli_fetch_assoc($result)) {
                                                         <td ></td>
                                                         <td ></td>
                                                    
-                                                        <td ><h4 class="far fa-credit-card">
+                                                        <td ><h4>
                                                         <?php
 if(isset($_SESSION['id'])){
 $id=$_SESSION['id'];

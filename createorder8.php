@@ -17,7 +17,7 @@ include 'connection.php';
  
 <head>
 
- /
+ 
 <style type="text/css">
    #logo{
 

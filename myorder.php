@@ -218,10 +218,32 @@ $('.kk').hide();
                                
                             </div>
                         </li>
-                        <li class="nav-item dropdown notification">
-                            <a class="nav-link nav-icons" href="#" id="navbarDropdownMenuLink1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-fw fa-bell"></i> <span class="indicator"></span></a>
-                           
+                        <li class="nav-item">
+                            <div id="custom-search" class="top-search-bar">
+                           <img src="assets/images/wallet.png" style="hright:20px;width:20px;">
+                            
+                            <b>
+                            <?php
+if(isset($_SESSION['id'])){
+    $id=$_SESSION['id'];
+    $sql="select * from customer where id=$id";
+    
+    $result=mysqli_query($conn,$sql);
+    
+    while ($row=mysqli_fetch_assoc($result)) {
+    echo '<span style="font-size;20px;" >  '.$row['accaunt'].'</span>';
+    }
+    
+    }
+    
+
+?>
+</b>
+</h4>
+                            </div>
                         </li>
+                      
+                      
                        
                         <li class="nav-item dropdown nav-user">
                             <a class="nav-link nav-user-img" href="#" id="navbarDropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="assets/images/avatar-1.jpg" alt="" class="user-avatar-md rounded-circle"></a>
@@ -252,33 +274,32 @@ $('.kk').hide();
                             <li class="nav-divider">
                                 Menu
                             </li>
-                            <li class="nav-item ">
-                                <a class="nav-link active" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-1" aria-controls="submenu-1"><i class="fa fa-fw fa-user-circle"></i>Dashboard <span class="badge badge-success">6</span></a>
-                                                           </li>
+                            <li class="nav-item">
+                                            <a class="nav-link" href="main.php"><i class="fa fa-fw fa-user-circle"></i>Dashboard<span class="badge badge-secondary">New</span></a>
+                                        </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-2" aria-controls="submenu-2"><i class="fa fa-fw fa-rocket"></i>Orders</a>
                                 <div id="submenu-2" class="collapse submenu" style="">
                                     <ul class="nav flex-column">
                                         <li class="nav-item">
-                                            <a class="nav-link" href="pages/createorder.php">Create New<span class="badge badge-secondary">New</span></a>
+                                            <a class="nav-link" href="createorder.php">Create New<span class="badge badge-secondary">New</span></a>
                                         </li>
                                        
                                         <li class="nav-item">
-                                            <a class="nav-link" href="pages/carousel.html">My Orders</a>
+                                            <a class="nav-link" href="myorders.php">My Orders</a>
                                         </li>
                                          <li class="nav-item">
-                                            <a class="nav-link" href="pages/general.html">Track Order</a>
+                                            <a class="nav-link" href="trackorder.php">Track Order</a>
                                         </li>
                                     
                                     </ul>
                                 </div>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-3" aria-controls="submenu-3"><i class="fas fa-fw fa-chart-pie"></i>Update </a>
+                            <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-3" aria-controls="submenu-3"><i class="fas fa-fw fa-chart-pie"></i>Update </a>
                                 <div id="submenu-3" class="collapse submenu" style="">
                               <ul class="nav flex-column">
                                         <li class="nav-item">
-                                            <a class="nav-link" href="#">Update Details</a>
+                                            <a class="nav-link" href="update-details.php">Update Details</a>
                                         </li>
                                     </ul>
 </div>
@@ -327,7 +348,7 @@ $('.kk').hide();
                     <!-- ============================================================== -->
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                         <div class="card">
-                            <h5 class="card-header">Basic Table</h5>
+                            <h5 class="card-header">My Orders</h5>
                             <div class="card-body">
                                 <div class="table-responsive">
                                     <table class="table table-striped table-bordered first">
@@ -371,7 +392,7 @@ if($row['status']=='shipped'){
    echo '<p style="color:blue;">'.$row['status'].'</p>';
 }
     ?></td>
-  <td ><span class="glyphicon glyphicon-info-sign oo" id="<?php echo $row['id'];  ?>" ></span></td>
+  <td style="curser:pointer;" ><i class="fas fa-info-circle"></i><span class="fa fa-info-circle oo" id="<?php echo $row['id'];  ?>" ></span></td>
   
 </tr>
 
