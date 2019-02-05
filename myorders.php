@@ -95,9 +95,11 @@ position: relative;
 
  $(document).ready(function(){
 
+    var tech='';
+    tech = getUrlParameter('productid');
 
-    var tech = getUrlParameter('productid');
-if(tech!=''){
+    url = new URL(window.location.href);
+if(url.searchParams.get('productid')){
     $('#exampleModalCenter1').modal('toggle');
 $('#exampleModalCenter1').modal('show');
 $('#exampleModalCenter1').modal('hide');
@@ -203,9 +205,29 @@ $('.kk').hide();
                                
                             </div>
                         </li>
-                        <li class="nav-item dropdown notification">
-                            <a class="nav-link nav-icons" href="#" id="navbarDropdownMenuLink1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-fw fa-bell"></i> <span class="indicator"></span></a>
-                           
+                        <li class="nav-item">
+                            <div id="custom-search" class="top-search-bar">
+                           <img src="assets/images/wallet.png" style="hright:20px;width:20px;">
+                            
+                            <b>
+                            <?php
+if(isset($_SESSION['id'])){
+    $id=$_SESSION['id'];
+    $sql="select * from customer where id=$id";
+    
+    $result=mysqli_query($conn,$sql);
+    
+    while ($row=mysqli_fetch_assoc($result)) {
+    echo '<span style="font-size;20px;" >  '.$row['accaunt'].'</span>';
+    }
+    
+    }
+    
+
+?>
+</b>
+</h4>
+                            </div>
                         </li>
                        
                         <li class="nav-item dropdown nav-user">
@@ -215,8 +237,8 @@ $('.kk').hide();
                                     <h5 class="mb-0 text-white nav-user-name"><?php echo $_SESSION['fname'].' '.$_SESSION['lname'] ; ?></h5>
                                     <span class="status"></span><span class="ml-2">Available</span>
                                 </div>
-                                <a class="dropdown-item" href="#"><i class="fas fa-user mr-2"></i>Account</a>
-                                <a class="dropdown-item" href="#"><i class="fas fa-cog mr-2"></i>Setting</a>
+                                <a class="dropdown-item" href="update-details.php"><i class="fas fa-user mr-2"></i>Account</a>
+                                
                                 <a class="dropdown-item" href="main.php?logout=true"><i class="fas fa-power-off mr-2"></i>Logout</a>
                             </div>
                         </li>
@@ -263,7 +285,10 @@ $('.kk').hide();
                                 <div id="submenu-3" class="collapse submenu" style="">
                               <ul class="nav flex-column">
                                         <li class="nav-item">
-                                            <a class="nav-link" href="#">Update Details</a>
+                                            <a class="nav-link" href="update-details.php">Update Details</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="changepassword.php">Change Password</a>
                                         </li>
                                     </ul>
 </div>

@@ -3,41 +3,9 @@ session_start();
 if (isset($_SESSION['id'])) {
 $id=$_SESSION['id'];
 include 'connection.php'; 
-$sql="select * from orders where customerid=$id";
-$delivered=0;
-$shipped=0;
-$ordered=0;
-$total=0;
-$totalprice=0;
-$sellp=0;
-$actualp=0;
-$benifit=0;
-//echo $conn;
-$result=mysqli_query($conn,$sql);
-while ($row=mysqli_fetch_assoc($result)) {
-    $total++;
-    $status=$row['status'];
-    $totalprice=$totalprice+$row['totalprice'];
-$sellp=$sellp+$row['sellprice'];
-   if ($status=='ordered') {
-    $ordered++;
 
-   }
-   if ($status=='shipped') {
-    $shipped++;
-   }
-    if ($status=='delivered') {
-    $delivered++;
-   }
 
-}
-  
-$benifit=$sellp-$totalprice;
 ?>
-
-
-
-
 
 
 <!doctype html>
@@ -66,33 +34,27 @@ $benifit=$sellp-$totalprice;
     <title>Vendorboat</title>
 
     <script type="text/javascript">
+$(document).ready(function(){
 
-      $(document).ready(function(){
-  var ctx = $("#mycanvas").get(0).getContext("2d");
+$('#submit').click(function(){
 
-  var data = [
-    {
-      value:   <?php echo $ordered;?>,
-      color: "darkorange",
-      highlight: "orange",
-     
-      label: "Ordered"
-    },
-    {
-      value:  <?php echo $shipped;?> ,
-      color: "green",
-      highlight: "yellowgreen",
-      label: "Shipped"
-    },
-    {
-      value: <?php echo $delivered;?>,
-      color: "cornflowerblue",
-      highlight: "lightskyblue",
-      label: "Delivered"
-    }
-  ];
+var username=$('#username').val();
+var password=$('#password').val();
+var newp=$('#newp').val();
+var newpc=$('#newpc').val();
 
-  var chart = new Chart(ctx).Doughnut(data);
+if(newp==newpc&&newp!=''&&newpc!=''){
+$.post('changep.php',{username:username,password:password,newp:newp},function(data){
+alert(data);
+});
+
+}else{
+    alert('Confirm Password Fail');
+}
+
+
+});
+
 });
 
       
@@ -117,8 +79,7 @@ $benifit=$sellp-$totalprice;
                     <ul class="navbar-nav ml-auto navbar-right-top">
                     <li class="nav-item">
                             <div id="custom-search" class="top-search-bar">
-                           <img src="assets/images/wallet.png" style="hright:20px;width:20px;">
-                            
+                            <h4 class="far fa-credit-card">
                             <b>
                             <?php
 if(isset($_SESSION['id'])){
@@ -128,7 +89,7 @@ if(isset($_SESSION['id'])){
     $result=mysqli_query($conn,$sql);
     
     while ($row=mysqli_fetch_assoc($result)) {
-    echo '<span style="font-size;20px;" > '.$row['accaunt'].'</span>';
+    echo 'A/C: '.$row['accaunt'];
     }
     
     }
@@ -139,8 +100,8 @@ if(isset($_SESSION['id'])){
 </h4>
                             </div>
                         </li>
-                      
-                      
+                       
+                        
                         <li class="nav-item dropdown nav-user">
                             <a class="nav-link nav-user-img" href="#" id="navbarDropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="assets/images/avatar-1.jpg" alt="" class="user-avatar-md rounded-circle"></a>
                             <div class="dropdown-menu dropdown-menu-right nav-user-dropdown" aria-labelledby="navbarDropdownMenuLink2">
@@ -191,7 +152,7 @@ if(isset($_SESSION['id'])){
                                             <a class="nav-link" href="myorders.php">My Orders</a>
                                         </li>
                                          <li class="nav-item">
-                                            <a class="nav-link" href="trackorder.php">Track Order</a>
+                                            <a class="nav-link" href="trackorder.pph">Track Order</a>
                                         </li>
                                     
                                     </ul>
@@ -245,112 +206,78 @@ if(isset($_SESSION['id'])){
                             <!-- ============================================================== -->
                             <!-- category revenue  -->
                             <!-- ============================================================== -->
-                            <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12 col-12">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                                 <div class="card">
-                                    <h5 class="card-header">Order Status</h5>
+                                    <h5 class="card-header">Update Details</h5>
                                     <div class="card-body">
-                                        <center>
-                                    <canvas id="mycanvas"  height="420"></canvas>
 
-</center>
-<table class="table">
-    <tbody>
-        <tr><td><span class="fas fa-circle" style="color:gray;"></span>
-Total<h3><b><?php echo $total; ?></b></h3> </td>  <td><span class="fas fa-circle" style="color:orange;"></span>Ordered<h3><b><?php echo $ordered; ?></b></h3></td> 
-<td>
-<span class="fas fa-circle" style="color:skyblue;"></span>  Delivered<h3><b><?php echo $delivered; ?></b></h3>
-                                               </td> 
-                                               <td>
-                                               <span class="fas fa-circle" style="color:green;"></span>Despatch <h3><b><?php echo $shipped; ?></b></h3>
-                                                   </td></tr>
-</tbody>
-</table>
-                                    </div>
+                                    <?php 
+
+
+if (isset($_SESSION['id'])) {
+    $id=$_SESSION['id'];
+    ?>
+ <div class="form-row">
+                                            <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 mb-2">
+                                                <label >Enter Username</label>
+                                                <input type="text" class="form-control"  value="<?php echo $row['fname']; ?>" id="username"  required="">
+                                                <div class="invalid-feedback">
+                                                    Please provide a valid city.
+                                                </div>
+                                            </div>
+                                            </div>
+                                            <div class="form-row">
+                                            <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 mb-2">
+                                                <label >Enter Password</label>
+                                                <input type="text" class="form-control"  value="<?php echo $row['fname']; ?>" id="password" required="">
+                                                <div class="invalid-feedback">
+                                                    Please provide a valid city.
+                                                </div>
+                                            </div>
+                                            </div>
+                                            <div class="form-row">
+                                            <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 mb-2">
+                                                <label >Enter New password</label>
+                                                <input type="text" class="form-control"  value="<?php echo $row['fname']; ?>" id="newp"  required="">
+                                                <div class="invalid-feedback">
+                                                    Please provide a valid city.
+                                                </div>
+                                            </div>
+                                            </div><div class="form-row">
+                                            <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 mb-2">
+                                                <label >Confirm New Password</label>
+                                                <input type="text" class="form-control"  value="<?php echo $row['fname']; ?>" id="newpc"  required="">
+                                                <div class="invalid-feedback">
+                                                    Please provide a valid city.
+                                                </div>
+                                            </div>
+                                            </div>
+
+                                            <div class="form-row">
+                                            <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 mb-2">
+                                                
+                                                <input type="button" class="btn btn-success"  value="change password" id="submit"  required="">
+                                                <div class="invalid-feedback">
+                                                    Please provide a valid city.
+                                                </div>
+                                            </div>
+                                            </div>
+<?php
+}
+?>    </div>
                                 </div>
                             </div>
                             <!-- ============================================================== -->
                             <!-- end category revenue  -->
                             <!-- ============================================================== -->
 
-                            <div class="col-xl-7 col-lg-7 col-md-12 col-sm-12 col-12">
-                                <div class="card">
-                                    <h5 class="card-header"> Total Revenue</h5>
-                                    <div class="card-body">
-                                        <div id="morris_totalrevenue"></div>
-                                    </div>
-                                    <div class="card-footer">
-                                        <p class="display-7 font-weight-bold"><span class="text-primary d-inline-block">$26,000</span><span class="text-success float-right">+9.45%</span></p>
-                                    </div>
-                                </div>
-                            </div>
+                           
                         </div>
 
                     <!-- ============================================================== -->
                     <!-- end pageheader  -->
                     <!-- ============================================================== -->
   
-                        <div class="row">
-
-
-                          
-
-                            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <h5 class="text-muted">Number of Orders</h5>
-                                        <div class="metric-value d-inline-block">
-                                            <h1 class="mb-1"><?php echo $total; ?></h1>
-                                        </div>
-                                        <div class="metric-label d-inline-block float-right text-success font-weight-bold">
-                                            <span><i class="fa fa-fw fa-arrow-up"></i></span><span></span>
-                                        </div>
-                                    </div>
-                                    <div id="sparkline-revenue"></div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <h5 class="text-muted">Total Revenu</h5>
-                                        <div class="metric-value d-inline-block">
-                                            <h1 class="mb-1">Rs.<?php echo $sellp; ?></h1>
-                                        </div>
-                                        <div class="metric-label d-inline-block float-right text-success font-weight-bold">
-                                            <span><i class="fa fa-fw fa-arrow-up"></i></span><span></span>
-                                        </div>
-                                    </div>
-                                    <div id="sparkline-revenue2"></div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <h5 class="text-muted" >Amount Spend</h5>
-                                        <div class="metric-value d-inline-block">
-                                            <h1 class="mb-1"></span>Rs.<?php echo $totalprice; ?></h1>
-                                        </div>
-                                        <div class="metric-label d-inline-block float-right text-primary font-weight-bold">
-                                            <span></span>
-                                        </div>
-                                    </div>
-                                    <div id="sparkline-revenue3"></div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <h5 class="text-muted">Benifit</h5>
-                                        <div class="metric-value d-inline-block">
-                                            <h1 class="mb-1">Rs.<?php echo $benifit; ?></h1>
-                                        </div>
-                                        <div class="metric-label d-inline-block float-right text-secondary font-weight-bold">
-                                            <span></span>
-                                        </div>
-                                    </div>
-                                    <div id="sparkline-revenue4"></div>
-                                </div>
-                            </div>
-                        </div>
                        
     <!-- ============================================================== -->
     <!-- end main wrapper  -->

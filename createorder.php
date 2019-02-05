@@ -42,7 +42,7 @@ include 'connection.php';
 
                 height: 100px;
                 width : 150px;
-                background : red;
+               
               
                 top: 10px;
                 left: 10px;
@@ -89,14 +89,10 @@ color: red;
 }
 
 
-#pencil{
-    display:none;
-   position:absolute;
-}
 
 
 #open-preview{
-    position: relative;
+   
     background-size: cover;
 
 }
@@ -112,10 +108,13 @@ function _(el){
   return document.getElementById(el);
 }
 function uploadFile(){
+
   var file = _("file1").files[0];
   // alert(file.name+" | "+file.size+" | "+file.type);
+  var jjj=document.getElementById('sqa').value;
   var formdata = new FormData();
   formdata.append("file1", file);
+  formdata.append("sku",jjj);
   var ajax = new XMLHttpRequest();
  ajax.upload.addEventListener("progress", progressHandler, false);
   ajax.addEventListener("load", completeHandler, false);
@@ -162,6 +161,24 @@ function abortHandler(event){
                 left: 10px;
 
             }
+
+            .glow {
+ 
+  color: #fff;
+  text-align: center;
+  -webkit-animation: glow 1s ease-in-out infinite alternate;
+  -moz-animation: glow 1s ease-in-out infinite alternate;
+  animation: glow 1s ease-in-out infinite alternate;
+}
+
+@-webkit-keyframes glow {
+  from {
+    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #e60073, 0 0 40px #e60073, 0 0 50px #e60073, 0 0 60px #e60073, 0 0 70px #e60073;
+  }
+  to {
+    text-shadow: 0 0 10px #fff, 0 0 25px #ff4da6, 0 0 40px #ff4da6, 0 0 50px #ff4da6, 0 0 60px #ff4da6, 0 0 70px #ff4da6, 0 0 80px #ff4da6;
+  }
+}
             .container{
                 margin-bottom: 20px;
                 height: 300px;
@@ -190,12 +207,19 @@ var post='';
 
  
 $("#open-preview").hover(function(){
-   
-$(this).css("opacity", '0.5');
+    $(this).addClass('glow');
+$(this).css("opacity", '0.8');
 $('#pencil').css('display','block');
+
+$('#pencil').css("opacity", '1');
 }, function(){
 $(this).css("opacity", '1');
-$('#pencil').css('display','none');
+$(this).removeClass('glow');
+});
+
+$("body").on("click","#searchbutton", function(){
+  var id=$("#search").val();
+$('#myicons').load('mylogo.php?id='+id);
 });
 
     $('.selection1').hide();
@@ -318,6 +342,12 @@ $('.get1').click(function(){
     
     });
 
+$('#proceed').click(function(){
+    logoid1=00;
+ 
+
+$('#logo').attr('src','');
+});
 
  $("body").on("click",".logoc", function(){
     logoid1=$(this).attr('id');
@@ -634,7 +664,9 @@ $('.kk').hide();
 function createFormData(image)
 {
  var formImage = new FormData();
+ var jjj=document.getElementById('sqa').value;
  formImage.append('userImage', image[0]);
+ formdata.append("sku", jjj);
  uploadFormData(formImage);
 }
 
@@ -684,7 +716,8 @@ function uploadFormData(formData)
           
                         <li class="nav-item">
                             <div id="custom-search" class="top-search-bar">
-                            <h4 class="far fa-credit-card">
+                            <h4 >
+                            <img src="assets/images/wallet.png" style="hright:20px;width:20px;">
                             <b>
                             <?php
 if(isset($_SESSION['id'])){
@@ -694,7 +727,7 @@ if(isset($_SESSION['id'])){
     $result=mysqli_query($conn,$sql);
     
     while ($row=mysqli_fetch_assoc($result)) {
-    echo 'A/C: '.$row['accaunt'];
+    echo $row['accaunt'];
     }
     
     }
@@ -736,9 +769,10 @@ if(isset($_SESSION['id'])){
                             <li class="nav-divider">
                                 Menu
                             </li>
-                            <li class="nav-item ">
-                                <a class="nav-link active" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-1" aria-controls="submenu-1"><i class="fa fa-fw fa-user-circle"></i>Dashboard <span class="badge badge-success">6</span></a>
-                                                           </li>
+                            <li class="nav-item">
+                                            <a class="nav-link" href="main.php"><i class="fa fa-fw fa-user-circle"></i>Dashboard<span class="badge badge-secondary">New</span></a>
+                                        </li>
+                           
                             <li class="nav-item">
                                 <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-2" aria-controls="submenu-2"><i class="fa fa-fw fa-rocket"></i>Orders</a>
                                 <div id="submenu-2" class="collapse submenu" style="">
@@ -758,11 +792,14 @@ if(isset($_SESSION['id'])){
                                 </div>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-3" aria-controls="submenu-3"><i class="fas fa-fw fa-chart-pie"></i>Transactions</a>
+                                <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-3" aria-controls="submenu-3"><i class="fas fa-fw fa-chart-pie"></i>Upadate Details</a>
                                 <div id="submenu-3" class="collapse submenu" style="">
                               <ul class="nav flex-column">
                                         <li class="nav-item">
                                             <a class="nav-link" href="#">Update Details</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="changepassword.php">Change Password</a>
                                         </li>
                                     </ul>
 </div>
@@ -930,9 +967,12 @@ if(isset($_SESSION['id'])){
                                                    <div class="row">     
                                                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">                        
 <center>
-<div  id="open-preview" data-toggle="modal" data-target=".bd-example-modal-lg" style="text-align:center; height: 150px;width: 150px;background-color: gray;border:1px dashed gray; "></div>
+<div id="open-preview"   data-toggle="modal" data-target=".bd-example-modal-lg" style="cursor:pointer; height: 150px;width: 150px;background-color: gray;border:1px dashed gray; ">
+<span class="fas fa-plus-square"  id="pencil"  style="margin-top:  45%;color:black;cursor:pointer;"> Design</span>
+</div>
                             </center>         
-                                         <div class="fas fa-plus-square" id="pencil"></div>
+                                        
+                        
                                            </div>
                                            <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
 <button type="button" class="btn btn-primary "  id="showupload" data-toggle="modal" data-target="#exampleModalCenter"  >
@@ -947,7 +987,7 @@ if(isset($_SESSION['id'])){
       
     <div class="modal-content" style="padding: 2%;">
     <div class="modal-header">
-    <input type="button" class="btn btn-success " data-dismiss="modal" value="save">
+    <input type="button" class="btn btn-success " data-dismiss="modal" value="save">     <input type="button" class="btn btn-secondary " data-dismiss="modal" id="proceed" value="proceed Without Design">
                                  <button type="button" class="close" data-dismiss="modal">&times;</button>
           
            
@@ -978,7 +1018,7 @@ if(isset($_SESSION['id'])){
                  
                     <div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 col-12">
                         <div class="card">
-                            <h5 class="card-header">Slides with Indicators</h5>
+                           
                             <div class="card-body">
                             <div class="row">
                             <div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 col-12">
@@ -994,13 +1034,25 @@ if(isset($_SESSION['id'])){
                             <span>Cost<h4 id="logocharges1"></h4></span>
                             </div>
                             </div>
-
+                            
 
                             </div>
+                            
                 
                         </div>
-                        
 
+                        <div class="card">
+                           
+                            <div class="card-body">
+                        
+                        <div class="row">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                            <input type="text" name="" id="search"  placeholder="search by SKU"> <input type="button" value="Search" name="" id="searchbutton">
+                            </div>
+                            </div>
+
+                            </div>
+                            </div>
                     </div>
 
                         
@@ -1013,7 +1065,7 @@ if(isset($_SESSION['id'])){
     <div class="row">
     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                         <div class="card">
-                            <h5 class="card-header">Slides with Indicators</h5>
+                            <h5 class="card-header">My Designs</h5>
                             <div class="card-body">
                            
                             <div  id="myicons">    
@@ -1073,8 +1125,8 @@ if(isset($_SESSION['id'])){
         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                                 <div class="card">
                                     <div class="card-body">
-          <div style="background-color: #0000004f;padding: 5px;">
-          <h5 style="font-weight: bold;">Enter SQA ID <span style="color: red">*</span></h5><input type="text" placeholder="" class="form-control" name="" id="sqa"></div>
+          <div >
+          <h5 style="font-weight: bold;">Enter SKU ID <span style="color: red">*</span></h5><input type="text" placeholder="" class="form-control" name="" id="sqa"></div>
         <div class="row" id="uploadarea" > 
 
           
@@ -1089,40 +1141,35 @@ if(isset($_SESSION['id'])){
 
 <form id="upload_form" enctype="multipart/form-data" method="post">
 </form>
-<div id="wrapper" class="row" style="width: 200px;border:1px dashed black;" >
- <div id="drop-area"  style="background-color: #deefde;">
+<div id="wrapper" class="row" style="width: 200px;" >
+ <div id="drop-area"  style="background-color: #deefde; border:1px dashed black;height:100%;width:100%;">
   <p style="  font-weight:bold;">drop image here</p>
-  <h3 class="drop-text"><span class="glyphicon glyphicon-file"></span></h3>
+  <h3 class="drop-text"><span class="fas fa-fw fa-file"></span></h3>
  </div>
 </div>
-
-</div>
-</div>
-</div>
-
-<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                                <div class="card">
-                                    <div class="card-body">                        
-<div >
-<div id="manual" >
-  <table class="table"><tbody>
+<table class="table"><tbody>
   
 
       <form id="upload_form" enctype="multipart/form-data" method="post">
-  <input type="file"  class="btn btn-primary"  name="file1" id="file1"><br>
+      <tr><td>
+  <input type="file"  class="btn btn-primary"  name="file1" id="file1"></td></tr>
+  <tr><td>
   <input type="button" value="Upload File" class="btn btn-primary" onclick="uploadFile()">
+  </td></tr>
+  <tr>
+  <td>
   <progress id="progressBar" value="0" max="100" style="width:300px;height: 25px;"></progress>
   <h3 id="status"></h3>
   <p id="loaded_n_total"></p>
+  </td>
+  </tr>
 </form>
 
 </tbody></table>
-    </div>
-    </div>
-    </div>
-    
-   </div>
 </div>
+</div>
+</div>
+
 </div>
 
 
@@ -1440,7 +1487,7 @@ while ($row=mysqli_fetch_assoc($result)) {
                                                         <td ></td>
                                                         <td ></td>
                                                    
-                                                        <td ><h4 class="far fa-credit-card">
+                                                        <td ><img src="assets/images/wallet.png" style="hright:20px;width:20px;">
                                                         <?php
 if(isset($_SESSION['id'])){
 $id=$_SESSION['id'];
@@ -1449,7 +1496,7 @@ $sql="select * from customer where id=$id";
 $result=mysqli_query($conn,$sql);
 
 while ($row=mysqli_fetch_assoc($result)) {
-echo 'A/C: '.$row['accaunt'];
+echo $row['accaunt'];
 }
 
 }

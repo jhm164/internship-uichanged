@@ -593,8 +593,8 @@ if(isset($_SESSION['id'])){
                                     <h5 class="mb-0 text-white nav-user-name"><?php echo $_SESSION['fname'].' '.$_SESSION['lname'] ; ?></h5>
                                     <span class="status"></span><span class="ml-2">Available</span>
                                 </div>
-                                <a class="dropdown-item" href="#"><i class="fas fa-user mr-2"></i>Account</a>
-                                <a class="dropdown-item" href="#"><i class="fas fa-cog mr-2"></i>Setting</a>
+                                <a class="dropdown-item" href="update-details.php"><i class="fas fa-user mr-2"></i>Account</a>
+                             
                                 <a class="dropdown-item" href="main.php?logout=true"><i class="fas fa-power-off mr-2"></i>Logout</a>
                             </div>
                         </li>
@@ -641,6 +641,9 @@ if(isset($_SESSION['id'])){
                               <ul class="nav flex-column">
                                         <li class="nav-item">
                                             <a class="nav-link" href="update-details.php">Update Details</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="changepassword.php">Change Password</a>
                                         </li>
                                     </ul>
 </div>

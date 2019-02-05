@@ -10,7 +10,7 @@ if(is_array($_FILES))
   $targetPath = "images/".$_FILES['userImage']['name'];
 
 //echo $fileName.' '.$sourcePath  ;
-
+$sku=$_POST['sku'];
 if(!$conn){
 	echo die();
 }
@@ -19,7 +19,7 @@ if(!$conn){
   		$id=$_SESSION['id'];
   		echo $id;
   		
-$sql = "INSERT INTO `logo` (`id`,`imagepath`, `imagename`, `type`, `cid`) VALUES (NULL, '$targetPath','$fileName','$fileType',$id)";
+$sql = "INSERT INTO `logo` (`id`,`imagepath`, `imagename`, `type`, `cid`,`skuid`) VALUES (NULL, '$targetPath','$fileName','$fileType',$id,'$sku')";
 
 if(mysqli_query($conn,$sql)){
   move_uploaded_file($sourcePath,$targetPath);

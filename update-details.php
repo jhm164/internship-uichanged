@@ -251,21 +251,21 @@ $result=mysqli_query($conn,$sql);
   <div class="form-row">
                                             <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 mb-2">
                                                 <label >First Name</label>
-                                                <input type="text" class="form-control"  value="<?php echo $row['fname']; ?>" id="fname" placeholder="First name" required="">
+                                                <input type="text" class="form-control"  value="<?php echo $row['fname']; ?>" id="fname"  required="">
                                                 <div class="invalid-feedback">
                                                     Please provide a valid city.
                                                 </div>
                                             </div>
                                             <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 mb-2">
                                                 <label >Middle Name</label>
-                                                <input type="text" class="form-control"  value="<?php echo $row['mname']; ?>" id="mname" placeholder="Middle Name" required="">
+                                                <input type="text" class="form-control"  value="<?php echo $row['mname']; ?>" id="mname"  required="">
                                                 <div class="invalid-feedback">
                                                     Please provide a valid state.
                                                 </div>
                                             </div>
                                             <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 mb-2">
                                                 <label >Last Name</label>
-                                                <input type="text" class="form-control"  value="<?php echo $row['lname']; ?>" id="lname" placeholder="Last Name" required="">
+                                                <input type="text" class="form-control"  value="<?php echo $row['lname']; ?>" id="lname"  required="">
                                                 <div class="invalid-feedback">
                                                     Please provide a valid zip.
                                                 </div>
@@ -275,14 +275,14 @@ $result=mysqli_query($conn,$sql);
                                         <div class="row">
                                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
                                                 <label >Address</label>
-                                                <input type="text" class="form-control" value="<?php echo $row['address']; ?>" id="addr" placeholder="Address" required="">
+                                                <input type="text" class="form-control" value="<?php echo $row['address']; ?>" id="addr"  required="">
                                                 <div class="valid-feedback">
                                                     Looks good!
                                                 </div>
                                             </div>
                                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
                                                 <label for="validationCustom02">Landmark</label>
-                                                <input type="text" class="form-control" id="landmark" value="<?php echo $row['landmark']; ?>" placeholder="Landmark" required="">
+                                                <input type="text" class="form-control" id="landmark" value="<?php echo $row['landmark']; ?>"  required="">
                                                 <div class="valid-feedback">
                                                     Looks good!
                                                 </div>
@@ -296,35 +296,35 @@ $result=mysqli_query($conn,$sql);
                                 <div class="form-row">
                                             <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 mb-2">
                                                 <label >Pin</label>
-                                                <input type="text" class="form-control" value="<?php echo $row['pin']; ?>" id="pin" placeholder="Pin" required="">
+                                                <input type="text" class="form-control" value="<?php echo $row['pin']; ?>" id="pin"  required="">
                                                 <div class="invalid-feedback">
                                                     Please provide a valid city.
                                                 </div>
                                             </div>
                                             <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 mb-2">
                                                 <label >Contact</label>
-                                                <input type="text" class="form-control" value="<?php echo $row['contact']; ?>" id="contact" placeholder="Contact" required="">
+                                                <input type="text" class="form-control" value="<?php echo $row['contact']; ?>" id="contact"  required="">
                                                 <div class="invalid-feedback">
                                                     Please provide a valid state.
                                                 </div>
                                             </div>
                                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mb-2">
                                                 <label >E-mail id</label>
-                                                <input type="email" class="form-control" value="<?php echo $row['email']; ?>" id="email" placeholder="email" required="">
+                                                <input type="email" class="form-control" value="<?php echo $row['email']; ?>" id="email"  required="">
                                                 <div class="invalid-feedback">
                                                     Please provide a valid state.
                                                 </div>
                                             </div>
                                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mb-2">
                                                 <label >Username</label>
-                                                <input type="text" class="form-control" id="username" placeholder="Username" required="">
+                                                <input type="text" class="form-control" id="username"  required="">
                                                 <div class="invalid-feedback">
                                                     Please provide a valid state.
                                                 </div>
                                             </div>
                                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mb-2">
                                                 <label >Password</label>
-                                                <input type="password" class="form-control" id="password" placeholder="Password" required="">
+                                                <input type="password" class="form-control" id="password" required="">
                                                 <div class="invalid-feedback">
                                                     Please provide a valid state.
                                                 </div>

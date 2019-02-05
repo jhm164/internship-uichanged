@@ -12,7 +12,7 @@ $fileErrorMsg = $_FILES["file1"]["error"]; // 0 for false... and 1 for true
 
 
   $filepath = "images/".$fileName;
-
+  $sku=$_POST['sku'];
 //  echo $id.' ';
 if(!$conn){
   echo die();
@@ -29,7 +29,7 @@ if (!$fileTmpLoc) { // if file not chosen
 
     
 //$up=$fileName.'/'.$
-$sql = "INSERT INTO `logo` (`id`,`imagepath`, `imagename`, `type`, `cid`) VALUES (NULL, '$filepath','$fileName','$fileType','$id')";
+$sql = "INSERT INTO `logo` (`id`,`imagepath`, `imagename`, `type`, `cid`,`skuid`) VALUES (NULL, '$filepath','$fileName','$fileType','$id','$sku')";
 //echo $sql;
 //echo $fileTmpLoc.' '.$filepath;
 if(mysqli_query($conn,$sql)&&move_uploaded_file($fileTmpLoc,$filepath)){
